@@ -8,6 +8,8 @@ class Max(Function):
     """
     Maximum over two arrays
     """
+    def __init__(self,*args):
+        self.args = args
 
     def forward(self) -> np.ndarray:
         """
@@ -17,7 +19,7 @@ class Max(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: maximum over the two arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return max(self.args)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -31,3 +33,5 @@ class Max(Function):
         :return: a tuple of gradients over arguments of the maximum
         """
         raise NotImplementedError   # TODO: implement me as an exercise
+if __name__ == '__main__':
+    print(Max(1,2,4,3,7).forward())

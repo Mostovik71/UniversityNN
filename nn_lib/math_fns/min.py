@@ -8,6 +8,9 @@ class Min(Function):
     """
     Minimum over two arrays
     """
+    def __init__(self,arg1,arg2):
+        self.arg1 = arg1
+        self.arg2 = arg2
 
     def forward(self) -> np.ndarray:
         """
@@ -17,7 +20,11 @@ class Min(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: minimum over the two arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        mins=[]
+        for i,k in zip(self.arg1,self.arg2):
+            mins.append(min(i,k))
+        return mins
+
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -31,3 +38,5 @@ class Min(Function):
         :return: a tuple of gradients over arguments of the minimum
         """
         raise NotImplementedError   # TODO: implement me as an exercise
+if __name__ == '__main__':
+    print(Min([1,2],[5,1]).forward())

@@ -6,7 +6,7 @@ from nn_lib.math_fns.function import Function
 
 class Add(Function):
     """
-    Addition of two elements
+    Addition of two elements (Сложение)
     """
 
     def forward(self) -> np.ndarray:

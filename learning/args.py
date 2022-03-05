@@ -9,10 +9,10 @@ def example(a,b,c):
     print(a)
     print(b)
     print(c)
-def my_print(*args):
-    for arg in args:
-     print(arg)
-
+def my_print(*args,**kwargs):
+     print(kwargs)
 if __name__ == '__main__':
     # example(*[1,2,3])
-    my_print(1,2,3,4,5)
+    my_print(1,2,3,4,5,end='!')
+    #print(1,2,3,4,5,end='!')
+#**{end:'-',sep:':'} - ключ=аргумент, значение = значение аргумента

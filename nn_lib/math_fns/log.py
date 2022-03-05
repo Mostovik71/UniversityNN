@@ -8,6 +8,8 @@ class Log(Function):
     """
     Natural logarithm function (e based)
     """
+    def __init__(self,arg):
+        self.arg=arg
 
     def forward(self) -> np.ndarray:
         """
@@ -15,8 +17,7 @@ class Log(Function):
 
         :return: logarithm of the argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
-
+        return np.log(self.arg)
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray]:
         """
         Compute gradient over the logarithm argument
@@ -25,3 +26,5 @@ class Log(Function):
         :return: a tuple with a single value representing the gradient over the logarithm argument
         """
         raise NotImplementedError   # TODO: implement me as an exercise
+if __name__ == '__main__':
+    print(Log(2).forward())

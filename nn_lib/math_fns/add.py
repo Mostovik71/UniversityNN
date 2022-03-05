@@ -35,6 +35,6 @@ class Add(Function):
         """
         raise NotImplementedError   # TODO: implement me as an exercise
 
-if __name__ == '__main__':# Oh God, it works not only for two elements
+if __name__ == '__main__':
     res=Add(1,2,3,4,5,6,7).forward()
     print(res)

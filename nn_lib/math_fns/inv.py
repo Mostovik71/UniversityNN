@@ -8,14 +8,15 @@ class Inv(Function):
     """
     Multiplication inverse function
     """
-
+    def __init__(self,arg):
+        self.arg=arg
     def forward(self) -> np.ndarray:
         """
         Compute multiplicative inverse of the argument, i.e. (self.args[0].data) ^ -1
 
         :return: inverse of the argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return (self.arg)**-1
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray]:
         """
@@ -25,3 +26,5 @@ class Inv(Function):
         :return: a tuple with a single value representing the gradient over the inversion argument
         """
         raise NotImplementedError   # TODO: implement me as an exercise
+if __name__ == '__main__':
+    print(Inv(2).forward())

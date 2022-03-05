@@ -9,9 +9,9 @@ class Add(Function):
     Addition of two elements (Сложение)
     """
 
-    def __init__(self, arg1, arg2):
-        self.arg1 = arg1
-        self.arg2 = arg2
+    def __init__(self, *args):
+        self.args = args
+
     def forward(self) -> np.ndarray:
         """
         Add two arguments and return their sum
@@ -20,8 +20,8 @@ class Add(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: sum of the two arguments
         """
-        add=self.arg1+self.arg2
-        return add
+
+        return sum(self.args)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -35,6 +35,6 @@ class Add(Function):
         """
         raise NotImplementedError   # TODO: implement me as an exercise
 
-if __name__ == '__main__':# Oh God, it works
-    res=Add(1,2).forward()
+if __name__ == '__main__':# Oh God, it works not only for two elements
+    res=Add(1,2,3,4,5,6,7).forward()
     print(res)

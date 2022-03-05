@@ -8,7 +8,8 @@ class Mul(Function):
     """
     Multiplication of two elements
     """
-
+    def __init__(self,*args):
+        self.args=args
     def forward(self) -> np.ndarray:
         """
         Multiply two arguments and return their product
@@ -18,7 +19,7 @@ class Mul(Function):
 
         :return: product of the two arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return np.prod(self.args)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -31,3 +32,5 @@ class Mul(Function):
         :return: a tuple of gradients over two multiplication arguments
         """
         raise NotImplementedError   # TODO: implement me as an exercise
+if __name__ == '__main__':
+    print(Mul(1,2,3).forward())

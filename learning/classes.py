@@ -6,5 +6,6 @@ class Cat:
          print(f'{self.name} says: Meow!')
 
 if __name__ == '__main__':
-    tom = Cat('Tom', 2)
+    tom = Cat(name='Tom',age=2)
     angela = Cat('Angela', 1)
+tom.meow()

@@ -9,7 +9,7 @@ class Inv(Function):
     Multiplication inverse function
     """
     def __init__(self,arg):
-        self.arg=arg
+        self.arg=arg.data
     def forward(self) -> np.ndarray:
         """
         Compute multiplicative inverse of the argument, i.e. (self.args[0].data) ^ -1

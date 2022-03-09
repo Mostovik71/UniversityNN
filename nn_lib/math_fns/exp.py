@@ -9,7 +9,7 @@ class Exp(Function):
     """
 
     def __init__(self, arg):
-        self.arg = arg
+        self.arg = arg.data
 
     def forward(self) -> np.ndarray:
 

@@ -9,7 +9,7 @@ class Mul(Function):
     Multiplication of two elements
     """
     def __init__(self,*args):
-        self.args=args
+        self.args=args.data
     def forward(self) -> np.ndarray:
         """
         Multiply two arguments and return their product

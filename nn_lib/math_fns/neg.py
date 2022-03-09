@@ -9,7 +9,7 @@ class Neg(Function):
     Negation function (additive inverse)
     """
     def __init__(self, arg1):
-        self.arg1 = arg1
+        self.arg1 = arg1.data
     def forward(self) -> np.ndarray:
         """
         Take negative of the argument, i.e. -self.args[0].data

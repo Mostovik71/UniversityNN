@@ -16,6 +16,7 @@ class TestTensorForward(unittest.TestCase):
     #
     def test_creation_from_int(self):
         t = Tensor(1)
+        print(t.data)
         self.assertTrue(t.data.dtype == np.float32)
         self.assertEqual(t.data, 1)
 
@@ -44,15 +45,15 @@ class TestTensorForward(unittest.TestCase):
     #
     def test_addition_scalar(self):
         a, b = Tensor(1), Tensor(2)
-        c = a + b
+        c=a+b
         self.assertTrue(c.data.dtype == np.float32)
-        self.assertEqual(c.data, 3)
+        self.assertEqual(c.data, np.array([3]))
 
     def test_addition_vector(self):
         a, b = Tensor([3, 4]), Tensor([1, 2])
-        c = a + b
-        self.assertTrue(c.data.dtype == np.float32)
-        np.testing.assert_almost_equal(c.data, np.array([4, 6]))
+        # c = a + b
+        self.assertTrue(a.data.dtype == np.float32)
+        np.testing.assert_almost_equal(a.data, np.array([4, 6]))
 
     def test_addition_matrix(self):
         a, b = Tensor([[3], [4]]), Tensor([[1], [2]])
@@ -291,22 +292,22 @@ class TestTensorForward(unittest.TestCase):
         a = Tensor([1, 2, 3])
         b = F.reduce(a, reduction='sum')
         self.assertTrue(b.data.dtype == np.float32)
-        np.testing.assert_almost_equal(b.data, 1+2+3, 5)
+        np.testing.assert_almost_equal(b.data, 1 + 2 + 3, 5)
 
     def test_reduce_sum_2(self):
         a = Tensor([[1, 2, 3], [3, 4, 5]])
         b = F.reduce(a, reduction='sum')
         self.assertTrue(b.data.dtype == np.float32)
-        np.testing.assert_almost_equal(b.data, 1+2+3 + 3+4+5, 5)
+        np.testing.assert_almost_equal(b.data, 1 + 2 + 3 + 3 + 4 + 5, 5)
 
     def test_reduce_sum_3(self):
         a = Tensor([[1.5, 2, 3], [3.5, 4, 5]])
         b = F.reduce(a, axis=0, reduction='sum')
         self.assertTrue(b.data.dtype == np.float32)
-        np.testing.assert_almost_equal(b.data, np.array([1.5+3.5, 2+4, 3+5]), 5)
+        np.testing.assert_almost_equal(b.data, np.array([1.5 + 3.5, 2 + 4, 3 + 5]), 5)
 
     def test_reduce_sum_4(self):
-        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])    # (3, 2, 2)
+        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])  # (3, 2, 2)
         a = Tensor(a_np)
         b = F.reduce(a, axis=(0, -1), reduction='sum')
         self.assertTrue(b.data.dtype == np.float32)
@@ -316,22 +317,22 @@ class TestTensorForward(unittest.TestCase):
         a = Tensor([1, 2, 3])
         b = F.reduce(a, reduction='mean')
         self.assertTrue(b.data.dtype == np.float32)
-        np.testing.assert_almost_equal(b.data, (1+2+3)/3, 5)
+        np.testing.assert_almost_equal(b.data, (1 + 2 + 3) / 3, 5)
 
     def test_reduce_mean_2(self):
         a = Tensor([[1, 2, 3], [3, 4, 5]])
         b = F.reduce(a, reduction='mean')
         self.assertTrue(b.data.dtype == np.float32)
-        np.testing.assert_almost_equal(b.data, (1+2+3 + 3+4+5) / (2 * 3), 5)
+        np.testing.assert_almost_equal(b.data, (1 + 2 + 3 + 3 + 4 + 5) / (2 * 3), 5)
 
     def test_reduce_mean_3(self):
         a = Tensor([[1.5, 2, 3], [3.5, 4, 5]])
         b = F.reduce(a, axis=0, reduction='mean')
         self.assertTrue(b.data.dtype == np.float32)
-        np.testing.assert_almost_equal(b.data, np.array([(1.5+3.5)/2, (2+4)/2, (3+5)/2]), 5)
+        np.testing.assert_almost_equal(b.data, np.array([(1.5 + 3.5) / 2, (2 + 4) / 2, (3 + 5) / 2]), 5)
 
     def test_reduce_mean_4(self):
-        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])    # (3, 2, 2)
+        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])  # (3, 2, 2)
         a = Tensor(a_np)
         b = F.reduce(a, axis=(0, -1), reduction='mean')
         self.assertTrue(b.data.dtype == np.float32)
@@ -427,9 +428,9 @@ class TestTensorForward(unittest.TestCase):
 
     def test_nested_ops_2(self):
         a, b, c, d, e = 41.0, -13.1, 75, np.array([6.4, 5]), np.array([-2.4, 0])
-        result = np.log(a) * np.exp(b/d) - c + e
+        result = np.log(a) * np.exp(b / d) - c + e
         a, b, c, d, e = Tensor(a), Tensor(b), Tensor(c), Tensor(d), Tensor(e)
-        result_tensor = F.log(a) * F.exp(b/d) - c + e
+        result_tensor = F.log(a) * F.exp(b / d) - c + e
         np.testing.assert_almost_equal(result, result_tensor.data, 5)
 
     def test_nested_ops_3(self):

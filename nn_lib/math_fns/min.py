@@ -9,8 +9,8 @@ class Min(Function):
     Minimum over two arrays
     """
     def __init__(self,arg1,arg2):
-        self.arg1 = arg1
-        self.arg2 = arg2
+        self.arg1 = arg1.data
+        self.arg2 = arg2.data
 
     def forward(self) -> np.ndarray:
         """

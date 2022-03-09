@@ -9,7 +9,7 @@ class Log(Function):
     Natural logarithm function (e based)
     """
     def __init__(self,arg):
-        self.arg=arg
+        self.arg=arg.data
 
     def forward(self) -> np.ndarray:
         """

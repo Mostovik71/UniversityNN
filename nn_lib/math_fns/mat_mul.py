@@ -10,8 +10,8 @@ class MatMul(Function):
     """
     def __init__(self,mat1,mat2):
 
-        self.mat1 = mat1
-        self.mat2 = mat2
+        self.mat1 = mat1.data
+        self.mat2 = mat2.data
 
 
     def forward(self) -> np.ndarray:

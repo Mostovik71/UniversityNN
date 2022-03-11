@@ -45,15 +45,15 @@ class TestTensorForward(unittest.TestCase):
     #
     def test_addition_scalar(self):
         a, b = Tensor(1), Tensor(2)
-        c=a+b
+        c = a + b
         self.assertTrue(c.data.dtype == np.float32)
         self.assertEqual(c.data, np.array([3]))
 
     def test_addition_vector(self):
         a, b = Tensor([3, 4]), Tensor([1, 2])
-        # c = a + b
-        self.assertTrue(a.data.dtype == np.float32)
-        np.testing.assert_almost_equal(a.data, np.array([4, 6]))
+        c = a + b
+        self.assertTrue(c.data.dtype == np.float32)
+        np.testing.assert_almost_equal(c.data, np.array([4, 6]))
 
     def test_addition_matrix(self):
         a, b = Tensor([[3], [4]]), Tensor([[1], [2]])
@@ -163,7 +163,9 @@ class TestTensorForward(unittest.TestCase):
     #
     def test_inversion_scalar(self):
         a = Tensor(2)
+
         b = Tensor(1) / a
+        print(b)
         self.assertTrue(b.data.dtype == np.float32)
         self.assertEqual(b.data, 0.5)
 
@@ -199,7 +201,9 @@ class TestTensorForward(unittest.TestCase):
     #
     def test_maximum_scalar(self):
         a, b = Tensor(-1), Tensor(2)
+
         c = F.maximum(a, b)
+
         self.assertTrue(c.data.dtype == np.float32)
         self.assertEqual(c.data, 2)
 

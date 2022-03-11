@@ -8,10 +8,10 @@ class Max(Function):
     """
     Maximum over two arrays
     """
+
     def __init__(self, arg1, arg2):
         self.arg1 = arg1.data
         self.arg2 = arg2.data
-
 
     def forward(self) -> np.ndarray:
         """
@@ -22,9 +22,14 @@ class Max(Function):
         :return: maximum over the two arguments
         """
         maxs = []
-        for i, k in zip(self.arg1, self.arg2):
-            maxs.append(max(i, k))
-        return maxs
+        if (len(self.arg1.data)) == 1:
+            return max(self.arg1,self.arg2)
+        else:
+
+            for i, k in zip(self.arg1, self.arg2):
+                maxs.append(max(i, k))
+
+            return maxs
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -37,6 +42,9 @@ class Max(Function):
         :param grad_output: gradient over the result of the maximum operation
         :return: a tuple of gradients over arguments of the maximum
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        raise NotImplementedError  # TODO: implement me as an exercise
+
+
 if __name__ == '__main__':
-    print(Max([1,2],[5,1]).forward())
+    # print(Max(np.array(1),np.array(2)).forward())
+    print()

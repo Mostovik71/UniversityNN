@@ -21,9 +21,12 @@ class Min(Function):
         :return: minimum over the two arguments
         """
         mins=[]
-        for i,k in zip(self.arg1,self.arg2):
-            mins.append(min(i,k))
-        return mins
+        if (len(self.arg1.data)) == 1:
+            return min(self.arg1, self.arg2)
+        else:
+            for i,k in zip(self.arg1,self.arg2):
+                mins.append(min(i,k))
+            return mins
 
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:

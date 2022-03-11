@@ -22,13 +22,20 @@ class Max(Function):
         :return: maximum over the two arguments
         """
         maxs = []
-        if (len(self.arg1.data)) == 1:
-            return max(self.arg1,self.arg2)
-        else:
 
+        if len(self.arg1.data)==1 and len(self.arg2.data) == 1:
+            return max(self.arg1,self.arg2)
+        if (len(self.arg1.data)) == 1:
+            for i in self.arg2:
+                maxs.append(max(self.arg1, i))
+            return maxs
+        if (len(self.arg2.data)) == 1:
+            for i in self.arg1:
+                maxs.append(max(self.arg2, i))
+            return maxs
+        else:
             for i, k in zip(self.arg1, self.arg2):
                 maxs.append(max(i, k))
-
             return maxs
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:

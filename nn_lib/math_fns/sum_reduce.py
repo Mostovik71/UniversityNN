@@ -16,22 +16,21 @@ class SumReduce(Function):
         :param args: an argument to apply sum for
         :param axis: axis or multiple axes to sum over
         """
-        super(SumReduce, self).__init__(*args)
+        super(SumReduce, self).__init__(*args)#?????????
         if axis is None:
             axis = tuple(range(len(self.args[0].data.shape)))
 
         if isinstance(axis, int):
             axis = (axis,)
 
-        self.axis = axis#(0,1) if axis is None;(0,) or (1,) if axis is not None
+        self.axis = axis  # (0,1) if axis is None;(0,) or (1,) if axis is not None
 
     def forward(self) -> np.ndarray:
-        #print(self.axis)
-        if len(self.axis)==2:
+        # print(self.axis)
+        if len(self.axis) == 2:
             return sum(sum(self.args[0].data))
         if len(self.axis) == 1:
             return sum(self.args[0].data)
-
 
         # elif self.axis==1:
         """
@@ -49,7 +48,9 @@ class SumReduce(Function):
         :param grad_output: the gradient of the result of the reduction
         :return: a tuple with a single value representing the gradient over the reduction argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        raise NotImplementedError  # TODO: implement me as an exercise
+
+
 if __name__ == '__main__':
     # res=SumReduce(np.ndarray([1,2,3]),axis=None)
     pass

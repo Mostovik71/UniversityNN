@@ -294,12 +294,15 @@ class TestTensorForward(unittest.TestCase):
     #
     def test_reduce_sum_1(self):
         a = Tensor([1, 2, 3])
+
         b = F.reduce(a, reduction='sum')
+
         self.assertTrue(b.data.dtype == np.float32)
         np.testing.assert_almost_equal(b.data, 1 + 2 + 3, 5)
 
     def test_reduce_sum_2(self):
         a = Tensor([[1, 2, 3], [3, 4, 5]])
+
         b = F.reduce(a, reduction='sum')
         self.assertTrue(b.data.dtype == np.float32)
         np.testing.assert_almost_equal(b.data, 1 + 2 + 3 + 3 + 4 + 5, 5)
@@ -319,6 +322,7 @@ class TestTensorForward(unittest.TestCase):
 
     def test_reduce_mean_1(self):
         a = Tensor([1, 2, 3])
+        print()
         b = F.reduce(a, reduction='mean')
         self.assertTrue(b.data.dtype == np.float32)
         np.testing.assert_almost_equal(b.data, (1 + 2 + 3) / 3, 5)

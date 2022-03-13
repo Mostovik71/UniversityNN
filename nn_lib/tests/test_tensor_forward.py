@@ -165,7 +165,7 @@ class TestTensorForward(unittest.TestCase):
         a = Tensor(2)
 
         b = Tensor(1) / a
-        print(b)
+
         self.assertTrue(b.data.dtype == np.float32)
         self.assertEqual(b.data, 0.5)
 

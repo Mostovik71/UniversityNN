@@ -8,10 +8,6 @@ class MatMul(Function):
     """
     Matrix multiplication function
     """
-    def __init__(self,mat1,mat2):
-
-        self.mat1 = mat1.data
-        self.mat2 = mat2.data
 
 
     def forward(self) -> np.ndarray:
@@ -21,7 +17,7 @@ class MatMul(Function):
 
         :return: matrix product of the two arguments
         """
-        return np.matmul(np.matrix(self.mat1),np.matrix(self.mat2))
+        return np.matmul(np.matrix(self.args[0].data),np.matrix(self.args[1].data))
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """

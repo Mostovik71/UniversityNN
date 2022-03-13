@@ -8,8 +8,7 @@ class Log(Function):
     """
     Natural logarithm function (e based)
     """
-    def __init__(self,arg):
-        self.arg=arg.data
+
 
     def forward(self) -> np.ndarray:
         """
@@ -17,7 +16,7 @@ class Log(Function):
 
         :return: logarithm of the argument
         """
-        return np.log(self.arg)
+        return np.log(self.args[0].data)
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray]:
         """
         Compute gradient over the logarithm argument

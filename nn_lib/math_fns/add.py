@@ -1,4 +1,4 @@
-
+from sympy import *
 import numpy as np
 from typing import Union, Type, Iterable, Tuple
 from nn_lib.math_fns.function import Function
@@ -9,9 +9,7 @@ class Add(Function):
     Addition of two elements (Сложение)
     """
 
-    def __init__(self, arg1, arg2):
-        self.arg1 = arg1.data
-        self.arg2 = arg2.data
+
 
     def forward(self) -> np.ndarray:
         """
@@ -21,8 +19,8 @@ class Add(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: sum of the two arguments
         """
+        return self.args[0].data + self.args[1].data
 
-        return self.arg1+self.arg2
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
         Compute gradients over two addition arguments
@@ -33,9 +31,10 @@ class Add(Function):
         :param grad_output: gradient over the result of the addition operation
         :return: a tuple of gradients over two addition arguments
         """
-        raise NotImplementedError  # TODO: implement me as an exercise
+
+        return (1*grad_output, 1*grad_output)
 
 
 if __name__ == '__main__':
-    res = Add(1, 2).forward()
+    res = Add(1,2).backward()
     print(res)

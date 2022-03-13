@@ -8,9 +8,7 @@ class Min(Function):
     """
     Minimum over two arrays
     """
-    def __init__(self,arg1,arg2):
-        self.arg1 = arg1.data
-        self.arg2 = arg2.data
+
 
     def forward(self) -> np.ndarray:
         """
@@ -20,14 +18,7 @@ class Min(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: minimum over the two arguments
         """
-        mins=[]
-        if (len(self.arg1.data)) == 1:
-            return min(self.arg1, self.arg2)
-        else:
-            for i,k in zip(self.arg1,self.arg2):
-                mins.append(min(i,k))
-            return mins
-
+        return np.minimum(self.args[0].data, self.args[1].data)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """

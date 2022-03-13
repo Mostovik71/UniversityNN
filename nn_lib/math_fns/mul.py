@@ -8,9 +8,7 @@ class Mul(Function):
     """
     Multiplication of two elements
     """
-    def __init__(self,arg1, arg2):
-        self.arg1=arg1.data
-        self.arg2=arg2.data
+
     def forward(self) -> np.ndarray:
         """
         Multiply two arguments and return their product
@@ -20,7 +18,7 @@ class Mul(Function):
 
         :return: product of the two arguments
         """
-        return (self.arg1*self.arg2)
+        return (self.args[0].data*self.args[1].data)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """

@@ -8,8 +8,7 @@ class Exp(Function):
     Exponent function
     """
 
-    def __init__(self, arg):
-        self.arg = arg.data
+
 
     def forward(self) -> np.ndarray:
 
@@ -18,7 +17,7 @@ class Exp(Function):
 
         :return: exponent of the argument
         """
-        return np.exp(self.arg)
+        return np.exp(self.args[0].data)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray]:
         """

@@ -26,5 +26,3 @@ class Log(Function):
         """
         return (1/self.args[0].data*grad_output,)
 
-if __name__ == '__main__':
-    print(Log(2).forward())

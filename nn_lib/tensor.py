@@ -20,6 +20,7 @@ class Tensor:
         self.requires_grad = requires_grad
         # an accumulated gradient value
         self.grad = None    # type: Union[None, Tensor]
+
         # grad_fn is a reference to the Function object that this Tensor was the result of, used for computing gradient
         # Note: Tensor can be treated as a node in a computation tree and grad_fn Function as its edges
         # Note: this is similar to how gradient tracking is done in PyTorch but still differs quite a lot
@@ -37,6 +38,7 @@ class Tensor:
         be provided as gradient and gradient will be treated as equal to 1
         :return: None
         """
+
         # a Tensor does not require a gradient --> nothing to do
         if not self.requires_grad:
             return
@@ -49,7 +51,7 @@ class Tensor:
         # accumulate gradient for the Tensor; accumulation allows to perform a single optimizer step for
         # multiple backward passes
         self.grad += gradient
-
+        #print(self.grad)
         # if the tensor was computed as a result of some operation, compute grads for the arguments of this operation
         if self.grad_fn is not None:
             # compute the gradient over arguments of the Function that the current Tensor was result of (i.e. for the

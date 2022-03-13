@@ -32,7 +32,7 @@ class Max(Function):
         :param grad_output: gradient over the result of the maximum operation
         :return: a tuple of gradients over arguments of the maximum
         """
-        raise NotImplementedError  # TODO: implement me as an exercise
+        return
 
 
 if __name__ == '__main__':

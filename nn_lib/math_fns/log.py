@@ -24,6 +24,7 @@ class Log(Function):
         :param grad_output: gradient over the result of the logarithm function
         :return: a tuple with a single value representing the gradient over the logarithm argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return (1/self.args[0].data*grad_output,)
+
 if __name__ == '__main__':
     print(Log(2).forward())

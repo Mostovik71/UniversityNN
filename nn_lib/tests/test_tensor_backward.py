@@ -226,7 +226,7 @@ class TestTensorBackward(unittest.TestCase):
         c = a * b
         c.backward()
         np.testing.assert_equal(a.grad.data, np.array([[3, 4], [3, 4], [3, 4]]))
-        np.testing.assert_equal(b.grad.data, np.array([1+3+5, 2+4+6]))
+        np.testing.assert_equal(b.grad.data, np.array([1 + 3 + 5, 2 + 4 + 6]))
         np.testing.assert_equal(c.grad.data, np.ones_like(c))
 
     def test_multiplication_gradient_mixed_3(self):
@@ -234,7 +234,7 @@ class TestTensorBackward(unittest.TestCase):
         c = a * b
         c.backward()
         np.testing.assert_equal(a.grad.data, np.array([[3, 3], [4, 4], [5, 5]]))
-        np.testing.assert_equal(b.grad.data, np.array([[1+5], [3-1], [1+0]]))
+        np.testing.assert_equal(b.grad.data, np.array([[1 + 5], [3 - 1], [1 + 0]]))
         np.testing.assert_equal(c.grad.data, np.ones_like(c))
 
     #
@@ -243,29 +243,30 @@ class TestTensorBackward(unittest.TestCase):
     def test_inversion_gradient_scalar_1(self):
         a = Tensor(4, requires_grad=True)
         b = Tensor(1) / a
+
         b.backward()
-        self.assertAlmostEqual(a.grad.data, -1/4**2)
+        self.assertAlmostEqual(a.grad.data, -1 / 4 ** 2)
         self.assertEqual(b.grad.data, 1)
 
     def test_inversion_gradient_scalar_2(self):
         a = Tensor(5, requires_grad=True)
         b = Tensor(1) / a
         b.backward(Tensor(4))
-        self.assertAlmostEqual(a.grad.data, -4/5**2)
+        self.assertAlmostEqual(a.grad.data, -4 / 5 ** 2)
         self.assertEqual(b.grad.data, 4)
 
     def test_inversion_gradient_vector_1(self):
         a = Tensor([3, 5], requires_grad=True)
         b = Tensor(1) / a
         b.backward()
-        np.testing.assert_almost_equal(a.grad.data, np.array([-1/9, -1/5**2]), 6)
+        np.testing.assert_almost_equal(a.grad.data, np.array([-1 / 9, -1 / 5 ** 2]), 6)
         np.testing.assert_almost_equal(b.grad.data, np.array([1, 1]), 6)
 
     def test_inversion_gradient_vector_2(self):
         a = Tensor([-3, 4.5], requires_grad=True)
         b = Tensor(1) / a
         b.backward(Tensor([-1, 2]))
-        np.testing.assert_almost_equal(a.grad.data, np.array([1/9, -2/4.5**2]), 6)
+        np.testing.assert_almost_equal(a.grad.data, np.array([1 / 9, -2 / 4.5 ** 2]), 6)
         np.testing.assert_almost_equal(b.grad.data, np.array([-1, 2]), 6)
 
     #
@@ -274,49 +275,52 @@ class TestTensorBackward(unittest.TestCase):
     def test_division_gradient_scalar_1(self):
         a, b = Tensor(2, requires_grad=True), Tensor(3, requires_grad=True)
         c = a / b
+
         c.backward()
-        self.assertAlmostEqual(a.grad.data, 1/3)
-        self.assertAlmostEqual(b.grad.data, -2/3**2)
+
+        self.assertAlmostEqual(a.grad.data, 1 / 3)
+        self.assertAlmostEqual(b.grad.data, -2 / 3 ** 2)
         self.assertEqual(c.grad.data, 1)
 
     def test_division_gradient_scalar_2(self):
         a, b = Tensor(-2, requires_grad=True), Tensor(5, requires_grad=True)
         c = a / b
         c.backward(Tensor(3))
-        self.assertAlmostEqual(a.grad.data, 3/5)
-        self.assertAlmostEqual(b.grad.data, 6/5**2)
+        self.assertAlmostEqual(a.grad.data, 3 / 5)
+        self.assertAlmostEqual(b.grad.data, 6 / 5 ** 2)
         self.assertEqual(c.grad.data, 3)
 
     def test_division_gradient_vector_1(self):
         a, b = Tensor([-1.8, 3.2], requires_grad=True), Tensor([3, 4], requires_grad=True)
         c = a / b
         c.backward()
-        np.testing.assert_almost_equal(a.grad.data, np.array([1/3, 1/4]), 6)
-        np.testing.assert_almost_equal(b.grad.data, np.array([1.8/3**2, -3.2/4**2]), 6)
+        np.testing.assert_almost_equal(a.grad.data, np.array([1 / 3, 1 / 4]), 6)
+        np.testing.assert_almost_equal(b.grad.data, np.array([1.8 / 3 ** 2, -3.2 / 4 ** 2]), 6)
         np.testing.assert_almost_equal(c.grad.data, np.array([1, 1]), 6)
 
     def test_division_gradient_vector_2(self):
         a, b = Tensor([5, -2], requires_grad=True), Tensor([3.5, 1.9], requires_grad=True)
         c = a / b
         c.backward(Tensor([3.6, -1.6]))
-        np.testing.assert_almost_equal(a.grad.data, np.array([3.6/3.5, -1.6/1.9]), 6)
-        np.testing.assert_almost_equal(b.grad.data, np.array([-3.6*5/3.5**2, -1.6*2/1.9**2]), 6)
+        np.testing.assert_almost_equal(a.grad.data, np.array([3.6 / 3.5, -1.6 / 1.9]), 6)
+        np.testing.assert_almost_equal(b.grad.data, np.array([-3.6 * 5 / 3.5 ** 2, -1.6 * 2 / 1.9 ** 2]), 6)
         np.testing.assert_almost_equal(c.grad.data, np.array([3.6, -1.6]), 6)
 
     def test_division_gradient_mixed_1(self):
         a, b = Tensor(2, requires_grad=True), Tensor([-1, -4], requires_grad=True)
         c = a / b
         c.backward(Tensor([2, 4]))
-        np.testing.assert_equal(a.grad.data, 2/(-1) + 4/(-4))
-        np.testing.assert_equal(b.grad.data, np.array([-2*2/1**2, -4*2/4**2]))
+        np.testing.assert_equal(a.grad.data, 2 / (-1) + 4 / (-4))
+        np.testing.assert_equal(b.grad.data, np.array([-2 * 2 / 1 ** 2, -4 * 2 / 4 ** 2]))
         np.testing.assert_equal(c.grad.data, np.array([2, 4]))
 
     def test_division_gradient_mixed_2(self):
         a, b = Tensor([-1, -4], requires_grad=True), Tensor(2, requires_grad=True)
         c = a / b
+
         c.backward(Tensor([3, 5]))
-        np.testing.assert_equal(a.grad.data, np.array([3/2, 5/2]))
-        np.testing.assert_equal(b.grad.data, 3*1/2**2 + 5*4/2**2)
+        np.testing.assert_equal(a.grad.data, np.array([3 / 2, 5 / 2]))
+        np.testing.assert_equal(b.grad.data, 3 * 1 / 2 ** 2 + 5 * 4 / 2 ** 2)
         np.testing.assert_equal(c.grad.data, np.array([3, 5]))
 
     #
@@ -412,28 +416,28 @@ class TestTensorBackward(unittest.TestCase):
         a = Tensor(4, requires_grad=True)
         b = F.log(a)
         b.backward()
-        self.assertAlmostEqual(a.grad.data, 1/4)
+        self.assertAlmostEqual(a.grad.data, 1 / 4)
         self.assertEqual(b.grad.data, 1)
 
     def test_logarithm_gradient_scalar_2(self):
         a = Tensor(5, requires_grad=True)
         b = F.log(a)
         b.backward(Tensor(4))
-        self.assertAlmostEqual(a.grad.data, 4/5)
+        self.assertAlmostEqual(a.grad.data, 4 / 5)
         self.assertEqual(b.grad.data, 4)
 
     def test_logarithm_gradient_vector_1(self):
         a = Tensor([3.1, 5.4], requires_grad=True)
         b = F.log(a)
         b.backward()
-        np.testing.assert_almost_equal(a.grad.data, np.array([1/3.1, 1/5.4]), 6)
+        np.testing.assert_almost_equal(a.grad.data, np.array([1 / 3.1, 1 / 5.4]), 6)
         np.testing.assert_almost_equal(b.grad.data, np.array([1, 1]), 6)
 
     def test_logarithm_gradient_vector_2(self):
         a = Tensor([3.9, 1.5], requires_grad=True)
         b = F.log(a)
         b.backward(Tensor([1, -2.5]))
-        np.testing.assert_almost_equal(a.grad.data, np.array([1/3.9, -2.5/1.5]), 6)
+        np.testing.assert_almost_equal(a.grad.data, np.array([1 / 3.9, -2.5 / 1.5]), 6)
         np.testing.assert_almost_equal(b.grad.data, np.array([1, -2.5]), 6)
 
     #
@@ -450,7 +454,7 @@ class TestTensorBackward(unittest.TestCase):
         a = Tensor(3.1, requires_grad=True)
         b = F.exp(a)
         b.backward(Tensor(4))
-        self.assertAlmostEqual(a.grad.data, 4*np.exp(3.1), 5)
+        self.assertAlmostEqual(a.grad.data, 4 * np.exp(3.1), 5)
         self.assertEqual(b.grad.data, 4)
 
     def test_exponent_gradient_vector_1(self):
@@ -464,7 +468,7 @@ class TestTensorBackward(unittest.TestCase):
         a = Tensor([-3.9, 1.5], requires_grad=True)
         b = F.exp(a)
         b.backward(Tensor([1, -2.5]))
-        np.testing.assert_almost_equal(a.grad.data, np.array([np.exp(-3.9), -2.5*np.exp(1.5)]), 5)
+        np.testing.assert_almost_equal(a.grad.data, np.array([np.exp(-3.9), -2.5 * np.exp(1.5)]), 5)
         np.testing.assert_almost_equal(b.grad.data, np.array([1, -2.5]), 6)
 
     #
@@ -487,12 +491,12 @@ class TestTensorBackward(unittest.TestCase):
         np.testing.assert_almost_equal(c.grad.data, np.array([[1], [1]]))
 
     def test_matmul_gradient_3(self):
-        a, b = Tensor([[1, 2], [3, 4], [5, 0], [2, 1]], requires_grad=True),\
+        a, b = Tensor([[1, 2], [3, 4], [5, 0], [2, 1]], requires_grad=True), \
                Tensor([[1, -1, 0], [2, 3, 5]], requires_grad=True)
         c = F.mat_mul(a, b)
         c.backward()
-        np.testing.assert_almost_equal(a.grad.data, np.array([[1-1+0, 2+3+5]]*4))
-        np.testing.assert_almost_equal(b.grad.data, np.array([[1+3+5+2]*3, [2+4+0+1]*3]))
+        np.testing.assert_almost_equal(a.grad.data, np.array([[1 - 1 + 0, 2 + 3 + 5]] * 4))
+        np.testing.assert_almost_equal(b.grad.data, np.array([[1 + 3 + 5 + 2] * 3, [2 + 4 + 0 + 1] * 3]))
         np.testing.assert_almost_equal(c.grad.data, np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]]))
 
     #
@@ -520,7 +524,7 @@ class TestTensorBackward(unittest.TestCase):
         np.testing.assert_almost_equal(b.grad.data, np.array([1, 1, 1]), 5)
 
     def test_reduce_sum_4(self):
-        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])    # (3, 2, 2)
+        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])  # (3, 2, 2)
         a = Tensor(a_np, requires_grad=True)
         b = F.reduce(a, axis=(0, -1), reduction='sum')
         b.backward()
@@ -531,29 +535,29 @@ class TestTensorBackward(unittest.TestCase):
         a = Tensor([1, 2, 3], requires_grad=True)
         b = F.reduce(a, reduction='mean')
         b.backward(Tensor(1.5))
-        np.testing.assert_almost_equal(a.grad.data, np.array([1.5, 1.5, 1.5])/3, 5)
+        np.testing.assert_almost_equal(a.grad.data, np.array([1.5, 1.5, 1.5]) / 3, 5)
         np.testing.assert_almost_equal(b.grad.data, 1.5, 5)
 
     def test_reduce_mean_2(self):
         a = Tensor([[1, 2, 3], [3, 4, 5]], requires_grad=True)
         b = F.reduce(a, reduction='mean')
         b.backward(Tensor(2))
-        np.testing.assert_almost_equal(a.grad.data, np.array([[2, 2, 2], [2, 2, 2]])/6, 5)
+        np.testing.assert_almost_equal(a.grad.data, np.array([[2, 2, 2], [2, 2, 2]]) / 6, 5)
         np.testing.assert_almost_equal(b.grad.data, 2, 5)
 
     def test_reduce_mean_3(self):
         a = Tensor([[1.5, 2, 3], [3.5, 4, 5]], requires_grad=True)
         b = F.reduce(a, axis=0, reduction='mean')
         b.backward()
-        np.testing.assert_almost_equal(a.grad.data, np.array([[1, 1, 1], [1, 1, 1]])/2, 5)
+        np.testing.assert_almost_equal(a.grad.data, np.array([[1, 1, 1], [1, 1, 1]]) / 2, 5)
         np.testing.assert_almost_equal(b.grad.data, np.array([1, 1, 1]), 5)
 
     def test_reduce_mean_4(self):
-        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])    # (3, 2, 2)
+        a_np = np.array([[[5, 2], [3, 8]], [[8, 8], [5, 0]], [[6, -1], [1, -5]]])  # (3, 2, 2)
         a = Tensor(a_np, requires_grad=True)
         b = F.reduce(a, axis=(0, -1), reduction='mean')
         b.backward()
-        np.testing.assert_almost_equal(a.grad.data, np.ones_like(a_np)/(2*3), 5)
+        np.testing.assert_almost_equal(a.grad.data, np.ones_like(a_np) / (2 * 3), 5)
         np.testing.assert_almost_equal(b.grad.data, np.array([1, 1]), 5)
 
     #
@@ -671,8 +675,8 @@ class TestTensorBackward(unittest.TestCase):
         tt_a, tt_b, tt_c, tt_d, tt_e = tt_create(a), tt_create(b), tt_create(c), tt_create(d), tt_create(e)
         t_a, t_b, t_c, t_d, t_e = t_create(a), t_create(b), t_create(c), t_create(d), t_create(e)
 
-        tt_res = torch.log(tt_a) * torch.exp(tt_b/tt_d) - tt_c + tt_e
-        t_res = F.log(t_a) * F.exp(t_b/t_d) - t_c + t_e
+        tt_res = torch.log(tt_a) * torch.exp(tt_b / tt_d) - tt_c + tt_e
+        t_res = F.log(t_a) * F.exp(t_b / t_d) - t_c + t_e
 
         tt_res.backward(torch.from_numpy(np.array([0.1, 2])))
         t_res.backward(Tensor([0.1, 2]))

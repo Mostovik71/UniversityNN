@@ -15,7 +15,7 @@ class Inv(Function):
 
         :return: inverse of the argument
         """
-        return (self.args[0].data)**-1
+        return (self.args[0].data) ** -1
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray]:
         """
@@ -24,6 +24,10 @@ class Inv(Function):
         :param grad_output: gradient over the result of the invert function
         :return: a tuple with a single value representing the gradient over the inversion argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
-if __name__ == '__main__':
-    print(Inv(2).forward())
+        #print(grad_output)
+
+        return ((-1/self.args[0].data**2),)
+
+
+
+

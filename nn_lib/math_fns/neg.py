@@ -23,6 +23,5 @@ class Neg(Function):
         :param grad_output: gradient over the result of the negation
         :return: a tuple with a single value representing the gradient over the negation argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
-if __name__ == '__main__':
-    print(Neg(1).forward())
+
+        return (-1*grad_output,)

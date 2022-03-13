@@ -27,6 +27,3 @@ class MatMul(Function):
         :return: a tuple of gradients over two multiplication arguments
         """
         raise NotImplementedError   # TODO: implement me as an exercise
-if __name__ == '__main__':
-    matmul=MatMul([[2,2],[4,5]],[[2,2],[4,5]]).forward()
-    print(matmul)

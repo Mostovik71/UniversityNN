@@ -30,6 +30,6 @@ class Mul(Function):
         :param grad_output: gradient over the result of the multiplication operation
         :return: a tuple of gradients over two multiplication arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return ((1/self.args[1].data) , (-self.args[0].data/(self.args[1].data**2)))
 if __name__ == '__main__':
     print(Mul(1,2,3).forward())

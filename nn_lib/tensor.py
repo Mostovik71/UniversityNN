@@ -51,7 +51,7 @@ class Tensor:
         # accumulate gradient for the Tensor; accumulation allows to perform a single optimizer step for
         # multiple backward passes
         self.grad += gradient
-        #print(self.grad)
+
         # if the tensor was computed as a result of some operation, compute grads for the arguments of this operation
         if self.grad_fn is not None:
             # compute the gradient over arguments of the Function that the current Tensor was result of (i.e. for the

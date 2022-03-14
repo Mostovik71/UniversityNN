@@ -32,7 +32,13 @@ class Max(Function):
         :param grad_output: gradient over the result of the maximum operation
         :return: a tuple of gradients over arguments of the maximum
         """
-        return
+        if self.args[0].data == self.args[1].data:
+            print(0.5 * grad_output, 0.5 * grad_output)
+            return (0.5 * grad_output, 0.5 * grad_output)
+        elif self.args[0].data == np.maximum(self.args[0].data, self.args[1].data):
+            return (1 * grad_output, 0 * grad_output)
+        elif self.args[1].data == np.maximum(self.args[0].data, self.args[1].data):
+            return (0 * grad_output, 1 * grad_output)
 
 
 if __name__ == '__main__':

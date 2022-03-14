@@ -389,6 +389,7 @@ class TestTensorBackward(unittest.TestCase):
         a, b = Tensor(3, requires_grad=True), Tensor(3, requires_grad=True)
         c = F.minimum(a, b)
         c.backward(Tensor(-1))
+
         self.assertAlmostEqual(a.grad.data, -0.5)
         self.assertAlmostEqual(b.grad.data, -0.5)
         self.assertEqual(c.grad.data, -1)

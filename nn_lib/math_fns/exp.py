@@ -26,6 +26,6 @@ class Exp(Function):
         :param grad_output: gradient over the result of the exponent function
         :return: a tuple with a single value representing the gradient over the exponent argument
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return (np.exp(self.args[0].data)*grad_output,)
 if __name__ == '__main__':
     print(Exp(2).forward())

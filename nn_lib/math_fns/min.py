@@ -31,6 +31,14 @@ class Min(Function):
         :param grad_output: gradient over the result of the minimum operation
         :return: a tuple of gradients over arguments of the minimum
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
-if __name__ == '__main__':
-    print(Min([1,2],[5,1]).forward())
+        #print(self.args[0].data,self.args[1].data)
+
+
+
+        if self.args[0].data==self.args[1].data:
+            print(0.5*grad_output, 0.5*grad_output)
+            return (0.5*grad_output, 0.5*grad_output)
+        elif self.args[0].data == np.minimum(self.args[0].data, self.args[1].data):
+            return (1*grad_output,0*grad_output)
+        elif self.args[1].data == np.minimum(self.args[0].data, self.args[1].data):
+            return (0 * grad_output, 1 * grad_output)

@@ -569,7 +569,6 @@ class TestTensorBackward(unittest.TestCase):
     def test_slice_1(self):
         a = Tensor([1, 2, 3], requires_grad=True)
         b = a[:2]
-        #print(b)
         b.backward(Tensor([3, 4]))
 
         np.testing.assert_almost_equal(a.grad.data, np.array([3, 4, 0]))

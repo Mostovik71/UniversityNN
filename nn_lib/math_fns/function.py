@@ -51,6 +51,7 @@ class Function:
         # the ._backward() method of such functions return gradients that can not have the same shapes as corresponding
         # arguments, but we reduced them properly to the original shape below.
         reduced_grads = tuple(map(lambda it: self.reduce_gradient(it[1], it[0].data.shape), zip(self.args, grads)))
+        #print(grad_output)
         return reduced_grads
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, ...]:
@@ -80,5 +81,7 @@ class Function:
         axes_to_reduce = tuple(np.nonzero(axes_to_reduce_mask)[0])
         reduced_gradient = np.sum(grad, axis=axes_to_reduce, keepdims=True)
         reduced_gradient = np.squeeze(reduced_gradient, axis=tuple(range(shape_len_diff)))
+        print(reduced_gradient.shape, original_shape)
         assert reduced_gradient.shape == original_shape
+
         return reduced_gradient

@@ -9,6 +9,7 @@ class Min(Function):
     Minimum over two arrays
     """
 
+
     def forward(self) -> np.ndarray:
         """
         Compute minimum over two arrays element-wise, i.e. result[index] =  min(a[index], b[index])
@@ -17,7 +18,7 @@ class Min(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: minimum over the two arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return np.minimum(self.args[0].data, self.args[1].data)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -30,4 +31,14 @@ class Min(Function):
         :param grad_output: gradient over the result of the minimum operation
         :return: a tuple of gradients over arguments of the minimum
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        #print(self.args[0].data,self.args[1].data)
+
+
+
+        if self.args[0].data==self.args[1].data:
+            print(0.5*grad_output, 0.5*grad_output)
+            return (0.5*grad_output, 0.5*grad_output)
+        elif self.args[0].data == np.minimum(self.args[0].data, self.args[1].data):
+            return (1*grad_output,0*grad_output)
+        elif self.args[1].data == np.minimum(self.args[0].data, self.args[1].data):
+            return (0 * grad_output, 1 * grad_output)

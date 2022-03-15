@@ -353,6 +353,7 @@ class TestTensorBackward(unittest.TestCase):
     def test_maximum_vector_1(self):
         a, b = Tensor([3, 4], requires_grad=True), Tensor([1, 5], requires_grad=True)
         c = F.maximum(a, b)
+
         c.backward(Tensor([2, 3]))
         np.testing.assert_equal(a.grad.data, np.array([2, 0]))
         np.testing.assert_equal(b.grad.data, np.array([0, 3]))
@@ -478,7 +479,8 @@ class TestTensorBackward(unittest.TestCase):
     def test_matmul_gradient_1(self):
         a, b = Tensor([[1, 2]], requires_grad=True), Tensor([[3], [4]], requires_grad=True)
         c = F.mat_mul(a, b)
-        c.backward()
+
+        #c.backward()
         np.testing.assert_almost_equal(a.grad.data, np.array([[3, 4]]))
         np.testing.assert_almost_equal(b.grad.data, np.array([[1], [2]]))
         np.testing.assert_almost_equal(c.grad.data, 1)
@@ -567,13 +569,16 @@ class TestTensorBackward(unittest.TestCase):
     def test_slice_1(self):
         a = Tensor([1, 2, 3], requires_grad=True)
         b = a[:2]
+        #print(b)
         b.backward(Tensor([3, 4]))
+
         np.testing.assert_almost_equal(a.grad.data, np.array([3, 4, 0]))
         np.testing.assert_almost_equal(b.grad.data, np.array([3, 4]))
 
     def test_slice_2(self):
         a = Tensor([1, 2, 3], requires_grad=True)
         b = a[1:2]
+
         b.backward(Tensor(3))
         np.testing.assert_almost_equal(a.grad.data, np.array([0, 3, 0]))
         np.testing.assert_almost_equal(b.grad.data, np.array([3]))

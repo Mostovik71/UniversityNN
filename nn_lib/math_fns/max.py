@@ -18,6 +18,7 @@ class Max(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: maximum over the two arguments
         """
+
         return np.maximum(self.args[0].data, self.args[1].data)
 
 
@@ -32,15 +33,19 @@ class Max(Function):
         :param grad_output: gradient over the result of the maximum operation
         :return: a tuple of gradients over arguments of the maximum
         """
-        if self.args[0].data == self.args[1].data:
-            print(0.5 * grad_output, 0.5 * grad_output)
-            return (0.5 * grad_output, 0.5 * grad_output)
-        elif self.args[0].data == np.maximum(self.args[0].data, self.args[1].data):
-            return (1 * grad_output, 0 * grad_output)
-        elif self.args[1].data == np.maximum(self.args[0].data, self.args[1].data):
-            return (0 * grad_output, 1 * grad_output)
+        if (self.args[0].data.shape and self.args[1].data.shape)==():
+            if self.args[0].data == self.args[1].data:
+                return (0.5 * grad_output, 0.5 * grad_output)
+            elif self.args[0].data == np.maximum(self.args[0].data, self.args[1].data):
+                return (1 * grad_output, 0 * grad_output)
+            elif self.args[1].data == np.maximum(self.args[0].data, self.args[1].data):
+                return (0 * grad_output, 1 * grad_output)
+        else:
+            #if np.maximum(self.args[0].data, self.args[1].data)[0] in self.args[0].data:
+              return (1*grad_output[0],1*grad_output[1])
 
 
-if __name__ == '__main__':
-    # print(Max(np.array(1),np.array(2)).forward())
-    print()
+
+
+
+

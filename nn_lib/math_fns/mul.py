@@ -32,5 +32,3 @@ class Mul(Function):
         """
         #print(grad_output)
         return (self.args[1].data*grad_output, self.args[0].data*grad_output)
-if __name__ == '__main__':
-    print(Mul(1,2,3).forward())

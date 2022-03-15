@@ -26,4 +26,4 @@ class MatMul(Function):
         :param grad_output: gradient over the result of the multiplication operation
         :return: a tuple of gradients over two multiplication arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return (self.args[1].data*grad_output,self.args[0].data*grad_output)

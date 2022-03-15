@@ -24,9 +24,9 @@ class Inv(Function):
         :param grad_output: gradient over the result of the invert function
         :return: a tuple with a single value representing the gradient over the inversion argument
         """
-        #print(grad_output)
 
-        return ((-1/self.args[0].data**2),)
+
+        return (((-1*grad_output)/self.args[0].data**2),)
 
 
 

@@ -26,4 +26,8 @@ class MatMul(Function):
         :param grad_output: gradient over the result of the multiplication operation
         :return: a tuple of gradients over two multiplication arguments
         """
-        return (self.args[1].data*grad_output,self.args[0].data*grad_output)
+        a=self.args[0].data
+        b=self.args[1].data
+        #self.args[1].data*grad_output, self.args[0].data*grad_output
+
+        return (np.matmul(b,grad_output).reshape(a.shape),np.matmul(grad_output,a).reshape(b.shape))

@@ -480,7 +480,7 @@ class TestTensorBackward(unittest.TestCase):
         a, b = Tensor([[1, 2]], requires_grad=True), Tensor([[3], [4]], requires_grad=True)
         c = F.mat_mul(a, b)
 
-        #c.backward()
+        c.backward()
         np.testing.assert_almost_equal(a.grad.data, np.array([[3, 4]]))
         np.testing.assert_almost_equal(b.grad.data, np.array([[1], [2]]))
         np.testing.assert_almost_equal(c.grad.data, 1)

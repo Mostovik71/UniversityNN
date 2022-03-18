@@ -38,5 +38,9 @@ class Slice(Function):
         :param grad_output: gradient over the result of the slicing operation
         :return: a tuple with a single value representing the gradient over the slice operation argument
         """
+        a=np.zeros_like(self.args[0].data)
+        a[self.slice_obj]=grad_output
 
-        return (np.zeros_like(np.array(self.args[0].data[self.slice_obj]))*grad_output,)
+
+
+        return (a,)

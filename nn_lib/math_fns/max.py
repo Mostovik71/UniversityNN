@@ -33,6 +33,7 @@ class Max(Function):
         :param grad_output: gradient over the result of the maximum operation
         :return: a tuple of gradients over arguments of the maximum
         """
+
         if (self.args[0].data.shape and self.args[1].data.shape)==():
             if self.args[0].data == self.args[1].data:
                 return (0.5 * grad_output, 0.5 * grad_output)
@@ -41,8 +42,42 @@ class Max(Function):
             elif self.args[1].data == np.maximum(self.args[0].data, self.args[1].data):
                 return (0 * grad_output, 1 * grad_output)
         else:
-            #if np.maximum(self.args[0].data, self.args[1].data)[0] in self.args[0].data:
-              return (1*grad_output[0],1*grad_output[1])
+            a=self.args[0].data
+            b=self.args[1].data
+            c=np.maximum(a,b)
+            d1 = np.zeros(shape=(c.size, c.size))
+            d2 = np.zeros(shape=(c.size, c.size))
+            for i in range(len(c)):
+                if (c[i] == a[i]) and (c[i] == b[i]):
+                    d1[i][i]=0.5
+                    d2[i][i]=0.5
+                elif c[i] == a[i]:
+                    d1[i][i]=1
+                    d2[i][i]=0
+                elif c[i] == b[i]:
+                    d1[i][i] = 0
+                    d2[i][i] = 1
+            # for i in range(len(d1)):
+            #      d1[i][i]=a[i]
+            # for i in range(len(d1)):
+            #     if d1[i][i] in c:
+            #         d1[i][i]=1
+            #     if (d1[i][i] in c) and (d1[i][i] in c):
+            #
+            #     else:
+            #         d1[i][i]=0
+            #
+            # for j in range(len(d2)):
+            #     d2[j][j] = b[j]
+            # for j in range(len(d2)):
+            #     if d2[j][j] in c:
+            #         d2[j][j] = 1
+            #     else:
+            #         d2[j][j] = 0
+
+            return (d1*grad_output,d2*grad_output)
+
+
 
 
 

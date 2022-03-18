@@ -14,6 +14,7 @@ class TestModules(unittest.TestCase):
     def linear_from_params_test_helper(self, in_dim, out_dim, activation_fn, batch_size):
         linear = Linear(in_dim, out_dim, activation_fn)
 
+
         # check that parameters require grad
         self.assertTrue(linear.bias.requires_grad)
         self.assertTrue(linear.weight.requires_grad)
@@ -24,6 +25,7 @@ class TestModules(unittest.TestCase):
 
         # check parameter values
         scale = np.sqrt(1 / in_dim)
+
         self.assertTrue(linear.bias.data.max() <= scale)
         self.assertTrue(linear.bias.data.max() >= -scale)
         self.assertTrue(linear.weight.data.max() <= scale)
@@ -34,6 +36,7 @@ class TestModules(unittest.TestCase):
             y = linear(x)
 
             self.assertTrue(y.requires_grad)
+
             self.assertEqual(y.shape, (batch_size, out_dim))
             y_true = np.matmul(x.data, linear.weight.data) + linear.bias.data
             if activation_fn == 'relu':

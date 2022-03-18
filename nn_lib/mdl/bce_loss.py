@@ -21,4 +21,4 @@ class BCELoss(Loss):
         :return: a loss Tensor; if reduction is True, returns a scalar, otherwise a Tensor of shape (B,) -- loss value
             per batch element
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+

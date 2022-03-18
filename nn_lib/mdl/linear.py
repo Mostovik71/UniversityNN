@@ -11,6 +11,7 @@ class Linear(Module):
     Linear module is a building block of multi-layer perceptron neural network that performs a linear transform of the
     data batch
     """
+
     def __init__(self, in_dim: int, out_dim: int, activation_fn: str = 'relu'):
         """
         Create a linear module similar to https://pytorch.org/docs/stable/generated/torch.nn.Linear.html
@@ -24,7 +25,9 @@ class Linear(Module):
         self.activation_fn = activation_fn
 
         scale = np.sqrt(1 / self.in_dim)
+
         self.weight = Tensor(self.init_parameter((self.in_dim, self.out_dim), scale), requires_grad=True)
+
         self.bias = Tensor(self.init_parameter((1, self.out_dim), scale), requires_grad=True)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -33,7 +36,14 @@ class Linear(Module):
         :param x: an input of the shape (B, self.in_dim), where B is the batch size
         :return: an output of the layer of the shape (B, self.out_dim), where B is the batch size
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        w=self.weight
+        b=self.bias
+        y=F.mat_mul(x,w)+b
+        return(y)
+        # y = np.matmul(x.data,w.data)+b.data
+        #
+        #
+        # return Tensor(y,requires_grad=True)
 
     @staticmethod
     def init_parameter(shape: Tuple[int, int], scale: float) -> np.ndarray:
@@ -43,7 +53,8 @@ class Linear(Module):
         :param scale: scale of the parameter
         :return: initialized parameter
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        w = np.random.uniform(low=0,high=scale,size=shape)
+        return w
 
     def __str__(self):
         result = f'Linear layer: size ({self.in_dim}, {self.out_dim}), activation {self.activation_fn}'

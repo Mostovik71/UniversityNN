@@ -34,48 +34,49 @@ class Max(Function):
         :return: a tuple of gradients over arguments of the maximum
         """
 
-        if (self.args[0].data.shape and self.args[1].data.shape)==():
-            if self.args[0].data == self.args[1].data:
-                return (0.5 * grad_output, 0.5 * grad_output)
-            elif self.args[0].data == np.maximum(self.args[0].data, self.args[1].data):
-                return (1 * grad_output, 0 * grad_output)
-            elif self.args[1].data == np.maximum(self.args[0].data, self.args[1].data):
-                return (0 * grad_output, 1 * grad_output)
-        else:
-            a=self.args[0].data
-            b=self.args[1].data
-            c=np.maximum(a,b)
-            d1 = np.zeros(shape=(c.size, c.size))
-            d2 = np.zeros(shape=(c.size, c.size))
-            for i in range(len(c)):
-                if (c[i] == a[i]) and (c[i] == b[i]):
-                    d1[i][i]=0.5
-                    d2[i][i]=0.5
-                elif c[i] == a[i]:
-                    d1[i][i]=1
-                    d2[i][i]=0
-                elif c[i] == b[i]:
-                    d1[i][i] = 0
-                    d2[i][i] = 1
-            # for i in range(len(d1)):
-            #      d1[i][i]=a[i]
-            # for i in range(len(d1)):
-            #     if d1[i][i] in c:
-            #         d1[i][i]=1
-            #     if (d1[i][i] in c) and (d1[i][i] in c):
-            #
-            #     else:
-            #         d1[i][i]=0
-            #
-            # for j in range(len(d2)):
-            #     d2[j][j] = b[j]
-            # for j in range(len(d2)):
-            #     if d2[j][j] in c:
-            #         d2[j][j] = 1
-            #     else:
-            #         d2[j][j] = 0
+        data1 = self.args[0].data
+        data2 = self.args[1].data
 
-            return (d1*grad_output,d2*grad_output)
+        temp1 = np.where(data1 > data2, 1, 0)
+        temp2 = np.where(data2 > data1, 1, 0)
+
+        vec1 = np.where(data1 == data2, 0.5, temp1)
+        vec2 = np.where(data1 == data2, 0.5, temp2)
+        return vec1 * grad_output, vec2 * grad_output
+
+
+
+
+
+
+
+
+
+        # if (self.args[0].data.shape and self.args[1].data.shape)==():
+        #     if self.args[0].data == self.args[1].data:
+        #         return (0.5 * grad_output, 0.5 * grad_output)
+        #     elif self.args[0].data == np.maximum(self.args[0].data, self.args[1].data):
+        #         return (1 * grad_output, 0 * grad_output)
+        #     elif self.args[1].data == np.maximum(self.args[0].data, self.args[1].data):
+        #         return (0 * grad_output, 1 * grad_output)
+        # else:
+        #     a=self.args[0].data
+        #     b=self.args[1].data
+        #     c=np.maximum(a,b)
+        #     d1 = np.zeros(shape=(c.size, c.size))
+        #     d2 = np.zeros(shape=(c.size, c.size))
+        #     for i in range(len(c)):
+        #         if (c[i] == a[i]) and (c[i] == b[i]):
+        #             d1[i][i]=0.5
+        #             d2[i][i]=0.5
+        #         elif c[i] == a[i]:
+        #             d1[i][i]=1
+        #             d2[i][i]=0
+        #         elif c[i] == b[i]:
+        #             d1[i][i] = 0
+        #             d2[i][i] = 1
+
+        #return (d1*grad_output,d2*grad_output)
 
 
 

@@ -139,6 +139,7 @@ class TestModules(unittest.TestCase):
         loss = BCELoss(False)
         prediction_logits, targets = Tensor(np.array([0, 2, -2, 0, 2, -2])), Tensor(np.array([0, 0, 0, 1, 1, 1]))
         loss_value = loss(prediction_logits, targets)
+
         gt_result = np.array([0.6931472, 2.126928, 0.12692785, 0.6931472, 0.12692805, 2.1269279])
         assert_almost_equal(loss_value.data, gt_result)
 
@@ -146,6 +147,7 @@ class TestModules(unittest.TestCase):
         loss = BCELoss(True)
         prediction_logits, targets = Tensor(np.array([200, -9, -51, 61, 49, -55])), Tensor(np.array([0, 0, 0, 1, 1, 1]))
         loss_value = loss(prediction_logits, targets)
+
         assert_almost_equal(loss_value.data, 16.666687)
 
     def test_bce_loss_10(self):

@@ -14,7 +14,6 @@ class TestModules(unittest.TestCase):
     def linear_from_params_test_helper(self, in_dim, out_dim, activation_fn, batch_size):
         linear = Linear(in_dim, out_dim, activation_fn)
 
-
         # check that parameters require grad
         self.assertTrue(linear.bias.requires_grad)
         self.assertTrue(linear.weight.requires_grad)
@@ -55,6 +54,7 @@ class TestModules(unittest.TestCase):
 
     def test_linear_3(self):
         in_dim, out_dim = 2, 2
+
         self.linear_from_params_test_helper(in_dim, out_dim, 'none', 1)
 
     def test_linear_4(self):

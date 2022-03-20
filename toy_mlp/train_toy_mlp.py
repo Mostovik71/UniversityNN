@@ -44,10 +44,10 @@ def main(n_samples, structure, n_epochs, hidden_layer_sizes):
     print(f'Validation loss: {val_mean_loss:.4f}')
 
     # visualize dataset together with its predictions
-    val_dataset.visualize(val_predictions)
+    #val_dataset.visualize(val_predictions)
 
 
 if __name__ == '__main__':
-    main(n_samples=1000, structure='blobs', n_epochs=100, hidden_layer_sizes=(20,))
+    #main(n_samples=1000, structure='blobs', n_epochs=100, hidden_layer_sizes=(20,))
     # main(n_samples=1000, structure='circles', n_epochs=100, hidden_layer_sizes=(100,))
-    # main(n_samples=1000, structure='moons', n_epochs=100, hidden_layer_sizes=(10000,))
+     main(n_samples=1000, structure='moons', n_epochs=100, hidden_layer_sizes=(10000,))

@@ -71,6 +71,7 @@ class BinaryMLPClassifier(Module):
         return x
 
 
+
     def parameter_count(self) -> int:
         """
         Count total number of trainable parameters of the network

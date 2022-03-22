@@ -23,6 +23,7 @@ class Linear(Module):
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.activation_fn = activation_fn
+        self.activation = F.relu if self.activation_fn == 'relu' else lambda x: x
 
         scale = np.sqrt(1 / self.in_dim)
 
@@ -36,10 +37,11 @@ class Linear(Module):
         :param x: an input of the shape (B, self.in_dim), where B is the batch size
         :return: an output of the layer of the shape (B, self.out_dim), where B is the batch size
         """
-        w=self.weight
-        b=self.bias
-        y=F.mat_mul(x,w)+b
-        return(y)
+        return self.activation(F.mat_mul(x, self.weight) + self.bias)
+        # w=self.weight
+        # b=self.bias
+        # y=F.mat_mul(x,w)+b
+        # return(y)
         # y = np.matmul(x.data,w.data)+b.data
         #
         #
@@ -53,8 +55,8 @@ class Linear(Module):
         :param scale: scale of the parameter
         :return: initialized parameter
         """
-        w = np.random.uniform(low=0,high=scale,size=shape)
-        return w
+        # w = np.random.uniform(low=0,high=scale,size=shape)
+        return np.random.uniform(-scale, scale, shape)
 
     def __str__(self):
         result = f'Linear layer: size ({self.in_dim}, {self.out_dim}), activation {self.activation_fn}'

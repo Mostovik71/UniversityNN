@@ -8,6 +8,8 @@ class Inv(Function):
     """
     Multiplication inverse function
     """
+    def _inv(self, data: np.ndarray):
+        return 1 / data
 
     def forward(self) -> np.ndarray:
         """
@@ -15,7 +17,7 @@ class Inv(Function):
 
         :return: inverse of the argument
         """
-        return (self.args[0].data) ** -1
+        return self._inv(self.args[0].data)
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray]:
         """
@@ -25,8 +27,8 @@ class Inv(Function):
         :return: a tuple with a single value representing the gradient over the inversion argument
         """
 
-
-        return (((-1*grad_output)/self.args[0].data**2),)
+        inv = self._inv(self.args[0].data)
+        return (grad_output * (-inv * inv),)
 
 
 

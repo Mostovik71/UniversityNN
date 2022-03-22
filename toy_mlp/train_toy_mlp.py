@@ -21,6 +21,7 @@ def main(n_samples, structure, n_epochs, hidden_layer_sizes):
 
     # generate a training dataset
     train_dataset = ToyDataset(n_samples=n_samples, structure=structure, seed=0)
+
     # generate a validation dataset different from the training dataset
     val_dataset = ToyDataset(n_samples=n_samples, structure=structure, seed=1)
     # create a dataloader for training data with shuffling and dropping last batch
@@ -48,6 +49,6 @@ def main(n_samples, structure, n_epochs, hidden_layer_sizes):
 
 
 if __name__ == '__main__':
-    main(n_samples=1000, structure='blobs', n_epochs=100, hidden_layer_sizes=(20,))
-    # main(n_samples=1000, structure='circles', n_epochs=100, hidden_layer_sizes=(100,))
+     main(n_samples=1000, structure='blobs', n_epochs=100, hidden_layer_sizes=(20,))
+    #main(n_samples=1000, structure='circles', n_epochs=150, hidden_layer_sizes=(30, 30))
     # main(n_samples=1000, structure='moons', n_epochs=100, hidden_layer_sizes=(10000,))

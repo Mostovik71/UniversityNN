@@ -26,19 +26,8 @@ class SumReduce(Function):
         self.axis = axis  # (0,1) if axis is None;(0,) or (1,) if axis is not None
 
     def forward(self) -> np.ndarray:
-        # print(self.axis)
-        if len(self.axis) == 2:
-            return sum(sum(self.args[0].data))
-        if len(self.axis) == 1:
-            return sum(self.args[0].data)
+        return np.sum(self.args[0].data, self.axis)
 
-        # elif self.axis==1:
-        """
-        Reduce given axes by summing values over them
-        Hint: https://numpy.org/doc/stable/reference/generated/numpy.sum.html
-
-        :return: the reduced value
-        """
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, ...]:
         """

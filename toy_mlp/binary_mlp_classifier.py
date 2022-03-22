@@ -9,6 +9,7 @@ class BinaryMLPClassifier(Module):
     """
     Class representing a multilayer perceptron network for solving binary classification task
     """
+
     def __init__(self, in_features: int, hidden_layer_sizes: Union[Tuple[int, ...], List[int]]):
         """
         Creates binary MLP classifier
@@ -19,7 +20,7 @@ class BinaryMLPClassifier(Module):
         self.hidden_layer_sizes = hidden_layer_sizes
 
         self._parameters = []
-        self.layers = []        # type: List[Linear]
+        self.layers = []  # type: List[Linear]
         self._build_layers()
 
     def parameters(self) -> List[Tensor]:
@@ -36,7 +37,7 @@ class BinaryMLPClassifier(Module):
         Output of the last layer will later be used as an argument to the sigmoid function
         :return: None
         """
-        number_of_layers = len(self.hidden_layer_sizes)#?
+        number_of_layers = len(self.hidden_layer_sizes)
         if number_of_layers == 0:
             return None
         for i in range(0, number_of_layers):
@@ -46,6 +47,7 @@ class BinaryMLPClassifier(Module):
             self._add_layer(in_dim, out_dim, 'relu')
 
         self._add_layer(out_dim, 1, 'none')
+
     def _add_layer(self, in_dim: int, out_dim: int, activation_fn: str) -> None:
         """
         Adds a single layer to the network and updates internal list of parameters accordingly (both weight and bias)
@@ -68,9 +70,9 @@ class BinaryMLPClassifier(Module):
         """
         for layer in self.layers:
             x = layer.forward(x)
-        return x
 
 
+        return x[:,0]
 
     def parameter_count(self) -> int:
         """

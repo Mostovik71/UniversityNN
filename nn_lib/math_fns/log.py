@@ -24,5 +24,5 @@ class Log(Function):
         :param grad_output: gradient over the result of the logarithm function
         :return: a tuple with a single value representing the gradient over the logarithm argument
         """
-        return (1/self.args[0].data*grad_output,)
+        return (grad_output / self.args[0].data,)
 

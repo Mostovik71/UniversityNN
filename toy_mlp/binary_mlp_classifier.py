@@ -71,7 +71,7 @@ class BinaryMLPClassifier(Module):
         for layer in self.layers:
             x = layer.forward(x)
 
-
+        print(x)
         return x[:,0]
 
     def parameter_count(self) -> int:

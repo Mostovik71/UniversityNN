@@ -69,3 +69,11 @@ def reduce(x: Tensor, axis: Union[int, Tuple[int, ...], None] = None, reduction:
         denominator = np.prod(tuple(map(lambda i: shape[i], axis)))
         result = result / Tensor(denominator)
     return result
+
+
+def softmax(x: Tensor) -> Tensor:
+    result = exp(x) / Tensor(np.sum(exp(x).data))
+    return result
+
+
+

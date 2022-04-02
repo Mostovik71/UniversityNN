@@ -22,9 +22,20 @@ class CELoss(Loss):
         :return: a loss Tensor; if reduction is True, returns a scalar, otherwise a Tensor of shape (B,) -- loss value
             per batch element
         """
-        a = self._clip(prediction_logits)
 
-        losses = (Tensor(1) - target) * a + F.log(Tensor(1) + F.exp(-a))
+        x = F.softmax(prediction_logits)
+        log = F.log(x)
+        log = self._clip(log)
+        losses = - target * log
         return F.reduce(losses) if self.reduce else losses
 
+
+
+if __name__ == '__main__':
+    loss = CELoss()
+    x = Tensor([0.1, 0.3, 0.6])
+    y = Tensor([0, 0, 1])
+
+
+    print(loss(x, y))
 

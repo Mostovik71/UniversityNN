@@ -1,5 +1,7 @@
 import numpy as np
+import torch.nn as nn
 
+loss = nn.BCELoss()
 from nn_lib.mdl.loss import Loss
 from nn_lib import Tensor
 import nn_lib.tensor_fns as F
@@ -16,6 +18,7 @@ class BCELoss(Loss):
 
     def _clip(self, value: Tensor) -> Tensor:
         return F.clip(value, Tensor(-self.MAX_LOG, requires_grad=True), Tensor(self.MAX_LOG, requires_grad=True))
+
     def forward(self, prediction_logits: Tensor, target: Tensor) -> Tensor:
         """
         Compute a loss Tensor based on logit predictions and ground truth labels
@@ -25,12 +28,14 @@ class BCELoss(Loss):
         :return: a loss Tensor; if reduction is True, returns a scalar, otherwise a Tensor of shape (B,) -- loss value
             per batch element
         """
-        a = self._clip(prediction_logits)
-
-        losses = (Tensor(1) - target) * a + F.log(Tensor(1) + F.exp(-a))
+        x = F.sigmoid(prediction_logits)
+        log = F.log(x)
+        log2 = F.log(Tensor(1) - x)
+        log = self._clip(log)
+        log2 = self._clip(log2)
+        losses = -(target * log + (Tensor(1) - target) * log2)
+        # losses = (Tensor(1) - target) * a + F.log(Tensor(1) + F.exp(-a))
         return F.reduce(losses) if self.reduce else losses
-
-
 
         # if self.reduce==True:
         #     if target.shape==():
@@ -59,9 +64,10 @@ class BCELoss(Loss):
         #         losses.append(-((target[i]*logs1[i])+(Tensor(1)-target[i]))*logs2[i])
         #     for i in losses:
         #         print(i)
-            #loss=([-(i*F.log(j)+(Tensor(1)-i)*F.log(Tensor(1)-j)) for i,j in zip(target, prediction_logits)])
+        # loss=([-(i*F.log(j)+(Tensor(1)-i)*F.log(Tensor(1)-j)) for i,j in zip(target, prediction_logits)])
 
-            # loss=np.array([i.data for i in loss])
-            #
-            #
-            # return loss
+        # loss=np.array([i.data for i in loss])
+        #
+        #
+        # return loss
+

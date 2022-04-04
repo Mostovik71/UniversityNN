@@ -31,6 +31,6 @@ class EMnistDataset(Dataset):
 
 
 if __name__ == '__main__':
-    dataset = EMnistDataset(150, 21)
+    dataset = EMnistDataset(1000, 21)
     print(dataset[0])
 

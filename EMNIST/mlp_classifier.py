@@ -6,9 +6,6 @@ from nn_lib.mdl import Module, Linear
 
 
 class MLPClassifier(Module):
-    """
-    Class representing a multilayer perceptron network for solving binary classification task
-    """
 
     def __init__(self, in_features: int, hidden_layer_sizes: Union[Tuple[int, ...], List[int]]):
 

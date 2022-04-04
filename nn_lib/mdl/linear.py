@@ -19,11 +19,13 @@ class Linear(Module):
         :param out_dim: number of output dimensions of the layer
         :param activation_fn: activation function to apply after linear transformation, either 'relu' or 'none'
         """
-        assert activation_fn in ('relu', 'none')
+        assert activation_fn in ('relu', 'none', 'softmax')
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.activation_fn = activation_fn
-        self.activation = F.relu if self.activation_fn == 'relu' else lambda x: x
+        self.active = F.relu
+        self.activation = F.relu if self.activation_fn == 'relu' else F.softmax if self.activation_fn == 'softmax' else lambda \
+            x: x
 
         scale = np.sqrt(1 / self.in_dim)
 
@@ -37,6 +39,7 @@ class Linear(Module):
         :param x: an input of the shape (B, self.in_dim), where B is the batch size
         :return: an output of the layer of the shape (B, self.out_dim), where B is the batch size
         """
+
         return self.activation(F.mat_mul(x, self.weight) + self.bias)
         # w=self.weight
         # b=self.bias

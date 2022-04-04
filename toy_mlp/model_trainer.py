@@ -88,6 +88,8 @@ class ModelTrainer(Module):
             prediction_logit_batch = self.model(data_batch)
 
             positive_predictions = prediction_logit_batch.data > 0
+            #print(positive_predictions)
+            #exit(0)
             # positive_predictions = list(map(lambda x: 1 if x == [True] else 0, positive_predictions))
 
             correct_predictions = positive_predictions == label_batch.data  # ???

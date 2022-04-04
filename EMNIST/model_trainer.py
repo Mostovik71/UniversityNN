@@ -32,13 +32,9 @@ class ModelTrainer(Module):
         progress_bar = tqdm(range(n_epochs * len(train_dataloader)))
         for i_epoch in range(n_epochs):
             for data_batch, label_batch in train_dataloader:
-
-
                 _, loss_value = self._train_step(data_batch, label_batch)
 
                 progress_bar.update(1)
-
-
 
     def _train_step(self, data_batch: Tensor, label_batch: Tensor) -> Tuple[Tensor, Tensor]:
         optimizer = self.optimizer
@@ -48,6 +44,7 @@ class ModelTrainer(Module):
         optimizer.zero_grad()
 
         preds = model(data_batch)
+        print(preds)
 
         loss = loss(preds, label_batch)
 
@@ -59,7 +56,7 @@ class ModelTrainer(Module):
         n_correct_predictions = 0
         n_predictions = 0
         loss_values_sum = 0
-        predictions = []
+
         for data_batch, label_batch in tqdm(test_dataloader, desc='Validating'):
             prediction_logit_batch = self.model(data_batch)
             prd = [list(enumerate(prediction_logit_batch[i].data, 0)) for i in range((prediction_logit_batch.shape[0]))]
@@ -72,16 +69,14 @@ class ModelTrainer(Module):
             correct_predictions = list(map(lambda x: 1 if x == True else 0, comp))
 
             n_correct_predictions += sum(correct_predictions)
-            #print(n_correct_predictions)
+            # print(n_correct_predictions)
             n_predictions += len(data_batch.data)
 
             loss_value = self.loss_function(prediction_logit_batch, label_batch)
-            print(loss_value)
+
             loss_values_sum += loss_value.data
 
-
-
-        #predictions = np.array(predictions, np.bool)
+        # predictions = np.array(predictions, np.bool)
         accuracy = n_correct_predictions / n_predictions
         mean_loss = loss_values_sum / n_predictions
 

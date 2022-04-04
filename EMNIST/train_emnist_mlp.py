@@ -18,9 +18,9 @@ def main(n_samples, n_epochs, hidden_layer_sizes):
 
     model_trainer = ModelTrainer(mlp_model, loss_fn, optimizer)
 
-    train_dataset = EMnistDataset(n_samples=n_samples, seed=21)
+    train_dataset = EMnistDataset(n_samples=n_samples, seed=44)
 
-    val_dataset = EMnistDataset(n_samples=n_samples, seed=76)
+    val_dataset = EMnistDataset(n_samples=n_samples, seed=13)
 
     train_dataloader = Dataloader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
 
@@ -39,6 +39,6 @@ def main(n_samples, n_epochs, hidden_layer_sizes):
 
 
 if __name__ == '__main__':
-    main(n_samples=1000, n_epochs=10, hidden_layer_sizes=(128,))
+    main(n_samples=1000, n_epochs=1, hidden_layer_sizes=(512, ))
     # main(n_samples=1000, n_epochs=150, hidden_layer_sizes=(30, 30))
     # main(n_samples=1000, n_epochs=100, hidden_layer_sizes=(100,))

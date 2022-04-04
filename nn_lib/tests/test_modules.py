@@ -2,7 +2,8 @@ import unittest
 import numpy as np
 
 from nn_lib import Tensor
-from nn_lib.mdl import Linear, BCELoss
+from nn_lib.mdl import Linear, BCELoss, CELoss
+
 from nn_lib.tests.utils import seeded_random, assert_almost_equal
 
 

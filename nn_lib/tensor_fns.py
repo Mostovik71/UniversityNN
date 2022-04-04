@@ -1,6 +1,7 @@
 from typing import Union, Tuple
 import numpy as np
-
+import torch
+import torch.nn.functional as F
 from nn_lib import Tensor
 from nn_lib.math_fns import Log, Exp, MatMul, SumReduce, Max, Min
 
@@ -72,8 +73,12 @@ def reduce(x: Tensor, axis: Union[int, Tuple[int, ...], None] = None, reduction:
 
 
 def softmax(x: Tensor) -> Tensor:
-    result = exp(x) / reduce(exp(x), reduction='sum')
+
+    result = exp(x) / Tensor(np.sum(exp(x).data)) #reduce(exp(x), reduction='sum')
     return result
-
-
+if __name__ == '__main__':
+    # x = torch.Tensor([15, 14, 100])
+    # print(F.softmax(x))
+    x = Tensor([15, 14, 50])
+    print(softmax(x))
 

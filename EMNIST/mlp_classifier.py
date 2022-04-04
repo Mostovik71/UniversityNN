@@ -42,7 +42,9 @@ class MLPClassifier(Module):
         self._parameters.append(layer.bias)
 
     def forward(self, x: Tensor) -> Tensor:
+
         for layer in self.layers:
+            #print(x)
             x = layer.forward(x)
 
         return x  # [:, 0]

@@ -1,4 +1,4 @@
-from nn_lib.mdl import BCELoss
+from nn_lib.mdl import BCELoss, CELoss
 from nn_lib.optim import SGD
 from nn_lib.data import Dataloader
 
@@ -22,11 +22,11 @@ def main(n_samples, structure, n_epochs, hidden_layer_sizes):
     # generate a training dataset
     train_dataset = ToyDataset(n_samples=n_samples, structure=structure, seed=0)
 
-    # generate a validation dataset different from the training dataset
+
     val_dataset = ToyDataset(n_samples=n_samples, structure=structure, seed=1)
-    # create a dataloader for training data with shuffling and dropping last batch
+
     train_dataloader = Dataloader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
-    # create a dataloader for validation dataset without shuffling or last batch dropping
+
     val_dataloader = Dataloader(val_dataset, batch_size=100, shuffle=False, drop_last=False)
 
     # train the model for a given number of epochs

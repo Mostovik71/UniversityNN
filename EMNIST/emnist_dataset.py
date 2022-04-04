@@ -10,7 +10,7 @@ import random
 import torch.nn.functional as F
 from EMNIST.mlp_classifier import MLPClassifier
 
-train_data = datasets.EMNIST('C:/Users/mosto/PycharmProjects/data', train=True, download=False, split='digits', transform=transforms.Normalize((0.1307,), (0.3081,)))
+train_data = datasets.EMNIST('C:/Users/mosto/PycharmProjects/data', train=True, download=False, split='digits')
 
 
 class EMnistDataset(Dataset):

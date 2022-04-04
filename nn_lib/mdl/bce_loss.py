@@ -28,13 +28,14 @@ class BCELoss(Loss):
         :return: a loss Tensor; if reduction is True, returns a scalar, otherwise a Tensor of shape (B,) -- loss value
             per batch element
         """
+
         x = F.sigmoid(prediction_logits)
         log = F.log(x)
         log2 = F.log(Tensor(1) - x)
         log = self._clip(log)
         log2 = self._clip(log2)
         losses = -(target * log + (Tensor(1) - target) * log2)
-        # losses = (Tensor(1) - target) * a + F.log(Tensor(1) + F.exp(-a))
+        #losses = (Tensor(1) - target) * a + F.log(Tensor(1) + F.exp(-a))
         return F.reduce(losses) if self.reduce else losses
 
         # if self.reduce==True:

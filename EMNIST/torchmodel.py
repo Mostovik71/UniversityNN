@@ -19,9 +19,7 @@ class Classifier(nn.Module):
         self.fc1 = nn.Linear(28 * 28, 512)
         self.fc5 = nn.Linear(512, 10)
 
-        # Dropout module with 0.2 probbability
 
-        # Add softmax on output layer
         self.log_softmax = F.softmax
 
     def forward(self, x):
@@ -82,8 +80,10 @@ for images, labels in valid_loader:
 
     top_p, top_class = ps.topk(1, dim=1)
     l = [(i == 1).nonzero(as_tuple=True)[0] for i in labels]
-    equals = (top_class.flatten()) == (torch.tensor(l))
-    equals = list(map(lambda x: 1 if x == True else 0, equals))
-    print('Batch accuracy:', equals.count(1)/100)
 
-#Модель на торче - 0.7-0.8
+    equals = (top_class.flatten()) == (torch.tensor(l))
+
+    equals = list(map(lambda x: 1 if x == True else 0, equals))
+    print('Batch accuracy:', equals.count(1) / 100)
+
+# Модель на торче - 0.7-0.8

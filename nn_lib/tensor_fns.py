@@ -3,7 +3,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from nn_lib import Tensor
-from nn_lib.math_fns import Log, Exp, MatMul, SumReduce, Max, Min
+from nn_lib.math_fns import Log, Exp, MatMul, SumReduce, Max, Min, Inv, Mul
 
 
 def maximum(x: Tensor, y: Tensor) -> Tensor:
@@ -41,13 +41,22 @@ def relu(x: Tensor) -> Tensor:
     return result
 
 
+def inv(x: Tensor) -> Tensor:
+    result = Tensor.apply_fn(Inv, x)
+    return result
+
+def mul(x: Tensor, y:Tensor) -> Tensor:
+    result = Tensor.apply_fn(Mul, x, y)
+    return result
+
+
 def clip(x: Tensor, lower: Tensor, upper: Tensor) -> Tensor:
     clip_from_below = maximum(lower, x)
     clip_from_above = minimum(clip_from_below, upper)
     return clip_from_above
 
 
-def reduce(x: Tensor, axis: Union[int, Tuple[int, ...], None] = None, reduction: str = 'mean') -> Tensor:
+def reduce(x: Tensor, axis: Union[int, Tuple[int, ...], None] = None, reduction: str = 'mean',  keepdims: bool = False) -> Tensor:
     """
     Apply reduction to a Tensor
     :param x: Tensor to be reduced
@@ -64,7 +73,7 @@ def reduce(x: Tensor, axis: Union[int, Tuple[int, ...], None] = None, reduction:
         axis = (axis,)
 
     # first reduce by summation
-    result = Tensor.apply_fn(SumReduce, x, axis=axis)
+    result = Tensor.apply_fn(SumReduce, x, axis=axis, keepdims=keepdims)
     if reduction == 'mean':
         # if reduction is 'mean' divide result by the total size of reduced axes
         denominator = np.prod(tuple(map(lambda i: shape[i], axis)))
@@ -74,11 +83,17 @@ def reduce(x: Tensor, axis: Union[int, Tuple[int, ...], None] = None, reduction:
 
 def softmax(x: Tensor) -> Tensor:
 
-    result = exp(x) / Tensor(np.sum(exp(x).data)) #reduce(exp(x), reduction='sum')
+    e = exp(x)
+    result = e / reduce(e, axis=1, keepdims=True, reduction='sum')
+
     return result
+
+
 if __name__ == '__main__':
-    # x = torch.Tensor([15, 14, 100])
-    # print(F.softmax(x))
-    x = Tensor([15, 14, 50])
+    x = Tensor([[1, 2, 3], [3, 4, 5], [7, 8, 8]])
     print(softmax(x))
 
+
+    # print(e)
+    # print(p)
+    # print(e/reduce(e, axis=1, keepdims=True, reduction='sum'))

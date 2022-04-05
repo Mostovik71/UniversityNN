@@ -3,6 +3,7 @@ import numpy as np
 
 from nn_lib import Tensor
 from nn_lib.mdl import Module, Linear
+import nn_lib.tensor_fns as F
 
 
 class MLPClassifier(Module):
@@ -44,10 +45,10 @@ class MLPClassifier(Module):
     def forward(self, x: Tensor) -> Tensor:
 
         for layer in self.layers:
-            #print(x)
+
             x = layer.forward(x)
 
-        return x  # [:, 0]
+        return x
 
     def parameter_count(self) -> int:
 

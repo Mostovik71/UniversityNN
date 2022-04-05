@@ -16,24 +16,18 @@ class CELoss(Loss):
         prediction_logits = self._clip(prediction_logits)
 
         x = prediction_logits  # F.softmax(prediction_logits)
-        # print(x)
-        # exit(0)
+
         log = F.log(x)
         log = self._clip(log)
         losses = - target * log
 
         return F.reduce(losses) if self.reduce else losses
-        # y = self._clip(prediction_logits)
 
-        # losses = F.log(F.reduce(F.exp(y), reduction='sum')) - F.reduce(y * target,
-        #                                                                                       reduction='sum'
-        #                                                                                       )
-        # return F.reduce(losses) if self.reduce else losses
 
 
 if __name__ == '__main__':
     loss = CELoss()
     x = Tensor([0.08, 0.04, 0.8, 0.08])
     y = Tensor([0, 0, 1, 0])
-
     print(loss(x, y))
+

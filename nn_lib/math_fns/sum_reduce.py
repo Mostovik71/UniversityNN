@@ -9,7 +9,7 @@ class SumReduce(Function):
     Summation reduction over given axis (or axes)
     """
 
-    def __init__(self, *args, axis: Union[int, Tuple[int, ...], None] = None):
+    def __init__(self, *args, axis: Union[int, Tuple[int, ...], None] = None, keepdims: bool = False):
         """
         Create sum reduction function
 
@@ -24,9 +24,10 @@ class SumReduce(Function):
             axis = (axis,)
 
         self.axis = axis  # (0,1) if axis is None;(0,) or (1,) if axis is not None
+        self.keepdims = keepdims
 
     def forward(self) -> np.ndarray:
-        return np.sum(self.args[0].data, self.axis)
+        return np.sum(self.args[0].data, self.axis, keepdims=self.keepdims)
 
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, ...]:

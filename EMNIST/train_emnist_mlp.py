@@ -39,6 +39,6 @@ def main(n_samples, n_epochs, hidden_layer_sizes):
 
 
 if __name__ == '__main__':
-    main(n_samples=1000, n_epochs=1, hidden_layer_sizes=(512, ))
-    # main(n_samples=1000, n_epochs=150, hidden_layer_sizes=(30, 30))
+    #main(n_samples=1000, n_epochs=5, hidden_layer_sizes=(512, ))
+     main(n_samples=10000, n_epochs=150, hidden_layer_sizes=(512, ))
     # main(n_samples=1000, n_epochs=100, hidden_layer_sizes=(100,))

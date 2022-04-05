@@ -41,14 +41,6 @@ class Linear(Module):
         """
 
         return self.activation(F.mat_mul(x, self.weight) + self.bias)
-        # w=self.weight
-        # b=self.bias
-        # y=F.mat_mul(x,w)+b
-        # return(y)
-        # y = np.matmul(x.data,w.data)+b.data
-        #
-        #
-        # return Tensor(y,requires_grad=True)
 
     @staticmethod
     def init_parameter(shape: Tuple[int, int], scale: float) -> np.ndarray:

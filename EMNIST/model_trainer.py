@@ -1,5 +1,5 @@
 from typing import Tuple
-
+import nn_lib.tensor_fns as F
 import matplotlib.pyplot as plt
 import torch
 from tqdm import tqdm
@@ -44,11 +44,14 @@ class ModelTrainer(Module):
         optimizer.zero_grad()
 
         preds = model(data_batch)
-        print(preds)
-
+        #print(preds)
         loss = loss(preds, label_batch)
+        print(loss)
+
+
 
         loss.backward()
+
         optimizer.step()
         return preds, label_batch
 

@@ -1,1 +1,1 @@
-Hi, this is my version of the project (torch-like library). The creator of the project is @nikita-savelyevv.
+Hi, this is my version of the project (torch-like library). The creator of the project is @nikita-savelyevv(https://github.com/nikita-savelyevv).

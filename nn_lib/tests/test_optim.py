@@ -23,6 +23,7 @@ class TestOptimizers(unittest.TestCase):
         p.grad = Tensor(1)
         optimizer = SGD([p], 1e-3, 0)
         optimizer.step()
+
         assert_almost_equal(p.data, 0.999)
 
     def test_sgd_3(self):

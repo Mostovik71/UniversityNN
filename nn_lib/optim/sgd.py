@@ -8,6 +8,7 @@ class SGD(Optimizer):
     """
     Stochastic gradient descent optimizer similar to https://pytorch.org/docs/stable/generated/torch.optim.SGD.html
     """
+
     def __init__(self, parameters: List[Tensor], lr, weight_decay: float = 5e-4):
         """
         Create an SGD optimizer
@@ -24,4 +25,5 @@ class SGD(Optimizer):
         Update parameters of a model by performing a single gradient descent step
         :return: None
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        for param in self.parameters:
+            param.data = param.data - self.lr * (param.grad.data + self.weight_decay * param.data)

@@ -1,13 +1,15 @@
-from typing import Tuple
+from sympy import *
 import numpy as np
-
+from typing import Union, Type, Iterable, Tuple
 from nn_lib.math_fns.function import Function
 
 
 class Add(Function):
     """
-    Addition of two elements
+    Addition of two elements (Сложение)
     """
+
+
 
     def forward(self) -> np.ndarray:
         """
@@ -17,7 +19,7 @@ class Add(Function):
         https://numpy.org/doc/stable/user/basics.broadcasting.html
         :return: sum of the two arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        return self.args[0].data + self.args[1].data
 
     def _backward(self, grad_output: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -29,4 +31,8 @@ class Add(Function):
         :param grad_output: gradient over the result of the addition operation
         :return: a tuple of gradients over two addition arguments
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+
+        return (1*grad_output, 1*grad_output)
+
+
+

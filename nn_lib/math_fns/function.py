@@ -80,5 +80,7 @@ class Function:
         axes_to_reduce = tuple(np.nonzero(axes_to_reduce_mask)[0])
         reduced_gradient = np.sum(grad, axis=axes_to_reduce, keepdims=True)
         reduced_gradient = np.squeeze(reduced_gradient, axis=tuple(range(shape_len_diff)))
+
         assert reduced_gradient.shape == original_shape
+
         return reduced_gradient

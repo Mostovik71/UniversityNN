@@ -12,6 +12,7 @@ class ModelTrainer(Module):
     """
     A helper class for manipulating a neural network training and validation
     """
+
     def __init__(self, model: Module, loss_function: Loss, optimizer: Optimizer):
         """
         Create a neural network
@@ -43,10 +44,15 @@ class ModelTrainer(Module):
         for i_epoch in range(n_epochs):
             for data_batch, label_batch in train_dataloader:
                 _, loss_value = self._train_step(data_batch, label_batch)
+
                 progress_bar.update(1)
-                progress_bar.desc = f'Training. Epoch: {i_epoch + 1}. Loss: {loss_value.data:.4f}'
+
+    #               progress_bar.desc = f'Training. Epoch: {i_epoch + 1}. Loss: {loss_value.data:.4f}'
 
     def _train_step(self, data_batch: Tensor, label_batch: Tensor) -> Tuple[Tensor, Tensor]:
+        optimizer = self.optimizer
+        loss = self.loss_function
+        model = self.model
         """
         A single training step that
             (1) performs model forward on the data batch
@@ -57,7 +63,16 @@ class ModelTrainer(Module):
         :param label_batch: label batch corresponding to the data batch of the shape (B,)
         :return: tuple of two tensors for prediction logits and loss value
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+
+        optimizer.zero_grad()
+
+        preds = model(data_batch)
+
+        loss = loss(preds, label_batch)
+
+        loss.backward()
+        optimizer.step()
+        return preds, label_batch
 
     def validate(self, test_dataloader: Dataloader) -> Tuple[np.ndarray, float, float]:
         """
@@ -71,15 +86,24 @@ class ModelTrainer(Module):
         predictions = []
         for data_batch, label_batch in tqdm(test_dataloader, desc='Validating'):
             prediction_logit_batch = self.model(data_batch)
+
             positive_predictions = prediction_logit_batch.data > 0
-            correct_predictions = positive_predictions == label_batch.data
+            #print(positive_predictions)
+            #exit(0)
+            # positive_predictions = list(map(lambda x: 1 if x == [True] else 0, positive_predictions))
+
+            correct_predictions = positive_predictions == label_batch.data  # ???
+
             n_correct_predictions += correct_predictions.sum()
+
             n_predictions += len(data_batch.data)
+            # print(n_predictions, n_correct_predictions)
 
             loss_value = self.loss_function(prediction_logit_batch, label_batch)
+
             loss_values_sum += loss_value.data
 
-            predictions.extend(positive_predictions.tolist())
+            predictions.extend(positive_predictions)
 
         predictions = np.array(predictions, np.bool)
         accuracy = n_correct_predictions / n_predictions

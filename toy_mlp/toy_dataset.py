@@ -95,7 +95,9 @@ class ToyDataset(Dataset):
 
 
 if __name__ == '__main__':
-    # dataset = ToyDataset(1000, 'blobs')
+     dataset = ToyDataset(1000, 'blobs')
+     print(dataset.labels)
+     #print(dataset.data)
     # dataset = ToyDataset(1000, 'moons')
-    dataset = ToyDataset(1000, 'circles')
-    dataset.visualize()
+    # dataset = ToyDataset(1000, 'circles')
+     #dataset.visualize()

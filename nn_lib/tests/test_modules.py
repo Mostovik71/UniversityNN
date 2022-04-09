@@ -2,7 +2,8 @@ import unittest
 import numpy as np
 
 from nn_lib import Tensor
-from nn_lib.mdl import Linear, BCELoss
+from nn_lib.mdl import Linear, BCELoss, CELoss
+
 from nn_lib.tests.utils import seeded_random, assert_almost_equal
 
 
@@ -24,6 +25,7 @@ class TestModules(unittest.TestCase):
 
         # check parameter values
         scale = np.sqrt(1 / in_dim)
+
         self.assertTrue(linear.bias.data.max() <= scale)
         self.assertTrue(linear.bias.data.max() >= -scale)
         self.assertTrue(linear.weight.data.max() <= scale)
@@ -34,6 +36,7 @@ class TestModules(unittest.TestCase):
             y = linear(x)
 
             self.assertTrue(y.requires_grad)
+
             self.assertEqual(y.shape, (batch_size, out_dim))
             y_true = np.matmul(x.data, linear.weight.data) + linear.bias.data
             if activation_fn == 'relu':
@@ -52,6 +55,7 @@ class TestModules(unittest.TestCase):
 
     def test_linear_3(self):
         in_dim, out_dim = 2, 2
+
         self.linear_from_params_test_helper(in_dim, out_dim, 'none', 1)
 
     def test_linear_4(self):
@@ -136,6 +140,7 @@ class TestModules(unittest.TestCase):
         loss = BCELoss(False)
         prediction_logits, targets = Tensor(np.array([0, 2, -2, 0, 2, -2])), Tensor(np.array([0, 0, 0, 1, 1, 1]))
         loss_value = loss(prediction_logits, targets)
+
         gt_result = np.array([0.6931472, 2.126928, 0.12692785, 0.6931472, 0.12692805, 2.1269279])
         assert_almost_equal(loss_value.data, gt_result)
 
@@ -143,6 +148,7 @@ class TestModules(unittest.TestCase):
         loss = BCELoss(True)
         prediction_logits, targets = Tensor(np.array([200, -9, -51, 61, 49, -55])), Tensor(np.array([0, 0, 0, 1, 1, 1]))
         loss_value = loss(prediction_logits, targets)
+
         assert_almost_equal(loss_value.data, 16.666687)
 
     def test_bce_loss_10(self):

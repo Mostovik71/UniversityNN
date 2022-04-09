@@ -9,6 +9,7 @@ class BinaryMLPClassifier(Module):
     """
     Class representing a multilayer perceptron network for solving binary classification task
     """
+
     def __init__(self, in_features: int, hidden_layer_sizes: Union[Tuple[int, ...], List[int]]):
         """
         Creates binary MLP classifier
@@ -19,11 +20,12 @@ class BinaryMLPClassifier(Module):
         self.hidden_layer_sizes = hidden_layer_sizes
 
         self._parameters = []
-        self.layers = []        # type: List[Linear]
+        self.layers = []  # type: List[Linear]
         self._build_layers()
 
     def parameters(self) -> List[Tensor]:
         result = self._parameters.copy()
+
         return result
 
     def _build_layers(self) -> None:
@@ -35,7 +37,16 @@ class BinaryMLPClassifier(Module):
         Output of the last layer will later be used as an argument to the sigmoid function
         :return: None
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        number_of_layers = len(self.hidden_layer_sizes)
+        if number_of_layers == 0:
+            return None
+        for i in range(0, number_of_layers):
+            in_dim = out_dim if i != 0 else self.in_features
+            out_dim = self.hidden_layer_sizes[i]
+
+            self._add_layer(in_dim, out_dim, 'relu')
+
+        self._add_layer(out_dim, 1, 'none')
 
     def _add_layer(self, in_dim: int, out_dim: int, activation_fn: str) -> None:
         """
@@ -45,7 +56,10 @@ class BinaryMLPClassifier(Module):
         :param activation_fn: activation function to apply to the outputs of the added layer
         :return: None
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        layer = Linear(in_dim, out_dim, activation_fn)
+        self.layers.append(layer)
+        self._parameters.append(layer.weight)
+        self._parameters.append(layer.bias)
 
     def forward(self, x: Tensor) -> Tensor:
         """
@@ -54,7 +68,10 @@ class BinaryMLPClassifier(Module):
         :param x: input data batch of the shape (B, self.in_features)
         :return: prediction batch of logits of the shape (B,)
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        for layer in self.layers:
+            x = layer.forward(x)
+
+        return x[:,0]
 
     def parameter_count(self) -> int:
         """

@@ -11,6 +11,7 @@ class Linear(Module):
     Linear module is a building block of multi-layer perceptron neural network that performs a linear transform of the
     data batch
     """
+
     def __init__(self, in_dim: int, out_dim: int, activation_fn: str = 'relu'):
         """
         Create a linear module similar to https://pytorch.org/docs/stable/generated/torch.nn.Linear.html
@@ -18,13 +19,18 @@ class Linear(Module):
         :param out_dim: number of output dimensions of the layer
         :param activation_fn: activation function to apply after linear transformation, either 'relu' or 'none'
         """
-        assert activation_fn in ('relu', 'none')
+        assert activation_fn in ('relu', 'none', 'softmax')
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.activation_fn = activation_fn
+        self.active = F.relu
+        self.activation = F.relu if self.activation_fn == 'relu' else F.softmax if self.activation_fn == 'softmax' else lambda \
+            x: x
 
         scale = np.sqrt(1 / self.in_dim)
+
         self.weight = Tensor(self.init_parameter((self.in_dim, self.out_dim), scale), requires_grad=True)
+
         self.bias = Tensor(self.init_parameter((1, self.out_dim), scale), requires_grad=True)
 
     def forward(self, x: Tensor) -> Tensor:
@@ -33,7 +39,8 @@ class Linear(Module):
         :param x: an input of the shape (B, self.in_dim), where B is the batch size
         :return: an output of the layer of the shape (B, self.out_dim), where B is the batch size
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+
+        return self.activation(F.mat_mul(x, self.weight) + self.bias)
 
     @staticmethod
     def init_parameter(shape: Tuple[int, int], scale: float) -> np.ndarray:
@@ -43,7 +50,8 @@ class Linear(Module):
         :param scale: scale of the parameter
         :return: initialized parameter
         """
-        raise NotImplementedError   # TODO: implement me as an exercise
+        # w = np.random.uniform(low=0,high=scale,size=shape)
+        return np.random.uniform(-scale, scale, shape)
 
     def __str__(self):
         result = f'Linear layer: size ({self.in_dim}, {self.out_dim}), activation {self.activation_fn}'
